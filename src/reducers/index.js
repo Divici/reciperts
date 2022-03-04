@@ -1,4 +1,4 @@
-import { FETCH_START, FETCH_FAIL, FETCH_SUCCESS, ADD_RECIPE, SET_ERROR} from './../actions';
+import { FETCH_START, FETCH_FAIL, FETCH_SUCCESS, ADD_RECIPE, SET_ERROR} from '../actions';
 
 export const initialState = {
     recipes: [],

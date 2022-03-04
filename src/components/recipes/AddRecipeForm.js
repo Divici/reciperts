@@ -6,9 +6,11 @@ import { Link, useHistory } from 'react-router-dom';
 
 const AddRecipeForm = (props) => {
     const {push} = useHistory();
+    const userId = localStorage.getItem("user_id");
 
     const [recipe, setRecipe] = useState({
         //recipeFields
+        user_id: userId
     })
 
     const handleChange = (e) => {
@@ -21,7 +23,7 @@ const AddRecipeForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        axios.post(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`, recipe)
+        axios.post(`https://reciperts.herokuapp.com/api/recipes`, recipe)
             .then(res=>{
                 props.addNewRecipe(res.data);
                 push(`/my-recipes`);
