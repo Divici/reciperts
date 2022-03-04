@@ -6,17 +6,18 @@ export const FETCH_FAIL = "FETCH_FAIL";
 export const ADD_RECIPE = "ADD_RECIPE";
 export const SET_ERROR = "SET_ERROR";
 
-// export const fetchSmurfs = () => (dispatch) => {
-//     dispatch(fetchStart());
-//     axios.get('http://localhost:3333/smurfs')
-//         .then(resp => {
-//             dispatch(fetchSuccess(resp.data));
-//         })
-//         .catch(err => {
-//             dispatch(fetchFail(err));
-//         })
-    
-// }
+const userId = localStorage.getItem("user_id")
+
+export const fetchRecipes = () => (dispatch) => {
+    dispatch(fetchStart());
+    axios.get(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`)
+        .then(resp => {
+            dispatch(fetchSuccess(resp.data));
+        })
+        .catch(err => {
+            dispatch(fetchFail(err));
+        })
+}
 
 export const fetchStart = () => {
     return({type:FETCH_START});
