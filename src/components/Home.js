@@ -19,7 +19,7 @@ const Home = (props) => {
                 <header>
                     <h1>New User</h1>
                     <p>
-                    The little cards grandma wrote her recipes on in her beautiful cursive are getting lost or are hard to read. You need somewhere secure to keep my recipes with me forever!
+                    The little cards grandma wrote her recipes on in her beautiful cursive are getting lost or are hard to read. You need somewhere secure to keep those recipes with you forever!
                     </p>
                     <Link to='signup'><button className="button secondary">Sign Up</button></Link>
                 </header>
