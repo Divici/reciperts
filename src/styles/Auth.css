@@ -1,0 +1,48 @@
+.container {
+	justify-content: center;
+    align-items: center;
+    display:flex;
+}
+
+.form {
+	padding:1rem;
+}
+
+.label {
+	display: block;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.input {
+	font-size: 1rem;
+    padding: 1rem 0;
+    width:100%;
+    text-align: center;
+}
+
+.center {
+    margin: 1rem auto;
+}
+
+.max {
+    width: 100%;
+}
+
+.title {
+    margin: 5rem auto;
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+}

@@ -1,4 +1,4 @@
-import { FETCH_START, FETCH_FAIL, FETCH_SUCCESS, ADD_RECIPE, SET_ERROR} from '../actions';
+import { FETCH_START, FETCH_FAIL, FETCH_SUCCESS, ADD_RECIPE, SET_ERROR, DELETE_RECIPE, EDIT_RECIPE} from '../actions';
 
 export const initialState = {
     recipes: [],
@@ -39,6 +39,19 @@ const reducer = (state=initialState, action)=>{
                 ...state,
                 recipes: [...state.recipes, newRecipe]
             };
+        case DELETE_RECIPE:
+            return {
+                ...state,
+                recipes: state.recipes.filter(item=>(action.payload !== item.recipe_id))
+            };
+        // case EDIT_RECIPE:
+        //     return {
+        //         ...state,
+        //         recipes: state.recipes.filter(item=>{
+        //             if(action.payload.recipe_id === item.recipe_id)
+        //             return action.payload !== item.recipe_id
+        //         })
+        //     };
         case SET_ERROR:
             return {
                 ...state,

@@ -111,15 +111,10 @@ background-color: #d94343;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%235c8864' fill-opacity='0.42' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 
-@media (max-width: 500px) {
+/* Need to add more breakpoints later */
+@media (max-width: 1250px) {
     #wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
         flex-direction: column;
-        height: 100vh;
     }
     .intro, .content {
         width: 100%;
@@ -143,7 +138,6 @@ background-color: #d94343;
         font-size: 3rem;
         margin: 1% auto;
     }
-        
     header  p, .content header p {
         font-size: 0.6rem;
         letter-spacing: 0.1em;
@@ -157,8 +151,8 @@ background-color: #d94343;
     
     .content header p {
         order: 3;
-    }
-    
-    
-        
+    }   
+    .content button {
+        margin-top: 2%;
+    } 
 }
