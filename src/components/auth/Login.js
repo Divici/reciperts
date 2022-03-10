@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-//import Header from "./Header";
+import Header from "../Header";
 import '../../styles/Auth.css';
 
 const Login = (props) => {
@@ -38,7 +38,7 @@ const Login = (props) => {
 
     return (
         <div>
-            {/* <Header/> */}
+            <Header/>
             <div className="title">
                 <h1>Log in</h1>
             </div>

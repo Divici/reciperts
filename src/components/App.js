@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import React from 'react';
+//import { connect } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoute from './auth/PrivateRoute';
 import Home from './Home';
 import Login from './auth/Login';
@@ -15,15 +15,16 @@ function App() {
     
         <Routes>
 
-          <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />   
-
-          <Route path='/logout' element={<PrivateRoute><Logout/></PrivateRoute>} />
-
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<Dashboard/>} />   
+            <Route path='/logout' element={<Logout/>} />
+          </Route>
+          
           <Route path='/login' element={<Login/>} />
 
           <Route path='/signup' element={<Signup/>} />
            
-          <Route path='/' element={<Home />} />
+          <Route path='/*' element={<Home />} />
 
         </Routes>
 

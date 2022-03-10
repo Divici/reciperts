@@ -3,6 +3,7 @@ import "../styles/Home.css";
 import { Link } from "react-router-dom";
 
 const Home = (props) => {
+    const token = localStorage.getItem('token');
     return (
         <div id="wrapper">
             <section className="intro">
@@ -11,7 +12,7 @@ const Home = (props) => {
                     <p>
                         your place for generation after generation of tradition
                     </p>
-                    <Link to='login'><button className="button primary">Sign In</button></Link>
+                    <Link to={!token? 'login' : 'dashboard'}><button className="button primary">Sign In</button></Link>
                 </header>
             </section>
             
@@ -21,7 +22,7 @@ const Home = (props) => {
                     <p>
                     The little cards grandma wrote her recipes on in her beautiful cursive are getting lost or are hard to read. You need somewhere secure to keep those recipes with you forever!
                     </p>
-                    <Link to='signup'><button className="button secondary">Sign Up</button></Link>
+                    <Link to={!token? 'signup' : 'dashboard'}><button className="button secondary">Sign Up</button></Link>
                 </header>
             </div>
         </div>

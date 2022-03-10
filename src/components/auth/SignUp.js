@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-//import Header from "./Header";
+import Header from "../Header";
 
 const Signup = (props) => {
     const navigate = useNavigate();
@@ -25,23 +25,22 @@ const Signup = (props) => {
     const handleSignup = (e) => {
         e.preventDefault();
         
-        // axios.post('https://plant-water-tracker.herokuapp.com/api/auth/register', credentials)
-        //     .then(resp=>{
-        //             setSuccess(!success);
-        //             const timer = setTimeout(() => {
-        //                 setSuccess(!success)
-        //                 navigate('/login');
-        //             }, 2000);
-                
-        //     })
-        //     .catch(err=>{
-        //         setError(err.response.data.message)
-        //     })
+        axios.post('https://reciperts.herokuapp.com/api/auth/register', credentials)
+            .then(resp=>{
+                    setSuccess(!success);
+                    const timer = setTimeout(() => {
+                        setSuccess(!success)
+                        navigate('/login');
+                    }, 2000);
+            })
+            .catch(err=>{
+                setError(err.response.data.message)
+            })
     }
 
     return (
         <div>
-            {/* <Header/> */}
+            <Header/>
             <div className="title">
                 <h1>Sign Up</h1>
             </div>

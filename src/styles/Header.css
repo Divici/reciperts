@@ -1,0 +1,24 @@
+.header {
+    padding: 1em;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #202631;
+    margin: 0 0 50px;
+}
+
+.header p {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.nav li{
+    display: inline-block;
+    padding: 0.3rem 1rem;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+}
