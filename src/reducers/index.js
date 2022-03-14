@@ -30,14 +30,9 @@ const reducer = (state=initialState, action)=>{
                 errorMessage: ''
             };
         case ADD_RECIPE:
-            const newRecipe = {
-                name: action.payload.name,
-                position: action.payload.position,
-                description: action.payload.description
-            }
             return {
                 ...state,
-                recipes: [...state.recipes, newRecipe]
+                recipes: [...state.recipes, action.payload]
             };
         case DELETE_RECIPE:
             return {
