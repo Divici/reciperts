@@ -5,6 +5,7 @@ import PrivateRoute from './auth/PrivateRoute';
 import Home from './Home';
 import Login from './auth/Login';
 import Logout from './auth/Logout';
+import AddRecipeForm from './recipes/AddRecipeForm';
 import Signup from './auth/SignUp';
 import Dashboard from './user/Dashboard';
 import '../styles/Home.css';
@@ -16,6 +17,7 @@ function App() {
         <Routes>
 
           <Route element={<PrivateRoute />}>
+            <Route path='/add-recipe' element={<AddRecipeForm/>} />
             <Route path='/dashboard' element={<Dashboard/>} />   
             <Route path='/logout' element={<Logout/>} />
           </Route>
