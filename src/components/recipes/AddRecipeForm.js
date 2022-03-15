@@ -24,11 +24,13 @@ const AddRecipeForm = (props) => {
         ingredient_name : '',
         ingredient_unit : '',
         quantity: 0,
+        recipe_id: recipe.recipe_id
     })
 
     const [step, setStep] = useState({
         step_instruction : '',
-        step_number : 1
+        step_number : 1,
+        recipe_id: recipe.recipe_id
     })
 
     const handleChange = (e) => {
@@ -56,7 +58,7 @@ const AddRecipeForm = (props) => {
         e.preventDefault();
 
         axiosWithAuth()
-            .post('/recipes')
+            .post('/recipes', recipe)
                 .then(res=>{
                     props.addNewRecipe(res.data);
                     navigate(`/dashboard`);
@@ -65,14 +67,6 @@ const AddRecipeForm = (props) => {
                     console.log(err.response.data);
                 })   
     
-        // axios.post(`https://reciperts.herokuapp.com/api/recipes`, recipe)
-        //     .then(res=>{
-        //         props.addNewRecipe(res.data);
-        //         navigate(`/dashboard`);
-        //     })
-        //     .catch(err=>{
-        //         console.log(err.response.data);
-        //     })
     }
 
     const ingredientAdder = (e) => {
