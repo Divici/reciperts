@@ -26,7 +26,41 @@ const Recipe = (props) => {
         <div>
             <Header />
 
-            <button onClick={handleClick}>Edit Recipe</button>
+            <header>
+                <div>
+                    <h1>{recipe_name}</h1>
+                    <h2>{category}</h2>
+                </div>
+                <div className="inline-block capitalize">
+                    <h2>{prep_time}</h2>
+                    <h2>{prep_time}</h2>
+                    <button onClick={handleClick} className="primary">Edit</button>
+                </div>
+            </header>
+
+            <body>
+                <div className="left-content static">
+                    <h2>Ingredients</h2>
+                    {
+                        ingredients.map(ingredient=>(
+                            <p>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
+                        ))
+                    }
+                </div>
+                <div className="right-content scroll">
+                    <h2>Directions</h2>
+                    {
+                        steps.map(step=>(
+                            <p>{step.step_number}) {step.step_instruction}</p>
+                        ))
+                    }
+                </div>
+            </body>
+
+            <footer>
+                <h3>From {source}</h3>
+            </footer>
+
         </div>
     )
 }
