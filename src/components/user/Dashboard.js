@@ -2,46 +2,56 @@ import React, {useState} from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import axiosWithAuth from "../utils/axiosWithAuth";
 import RecipeCard from "../recipes/RecipeCard";
 import Header from "../Header";
 
 const Dashboard = (props) => {
     const recipes = props.recipes;
+    const userId = localStorage.getItem("user_id");
     const navigate = useNavigate();
 
-    const [name, setName] = useState({
-        recipe_name: ''
+    const [recipe, setRecipe] = useState({
+        recipe_id: Math.floor(Date.now()/1000),
+        recipe_name: '',
+        user_id: userId
     })
 
-    //const [displayAdd, setDisplayAdd] = useState(false);
+    const [displayAdd, setDisplayAdd] = useState(false);
 
     const handleChange = (e) => {
-        setName({
-            ...name,
+        setRecipe({
+            ...recipe,
             [e.target.id] : e.target.value
         });
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    //     //need to call dispatch here
-
-    //     axios.post(`https://reciperts.herokuapp.com/api/recipes`, recipe)
-    //         .then(res=>{
-    //             props.setPlants([...props.plants, res.data]);
-    //             console.log("my plant", plant)
-    //             push(`/my-plants`);
-	// 		})
-	// 		.catch(err=>{
-	// 			console.log(err.response.data);
-	// 		})
-    // }
+        axiosWithAuth()
+            .post('/', recipe)
+                .then(res=>{
+                    navigate(`/dashboard/add/${recipe.recipe_id}`);
+                }) 
+                .catch(err=>{
+                    console.log(err.response.data);
+                })   
+        // axios.post(`https://reciperts.herokuapp.com/api/recipes`, recipe)
+        //     .then(res=>{
+        //         props.setPlants([...props.plants, res.data]);
+        //         console.log("my plant", plant)
+        //         push(`/my-plants`);
+		// 	})
+		// 	.catch(err=>{
+		// 		console.log(err.response.data);
+		// 	})
+    }
 
     const handleClick = (e) => {
         e.preventDefault();
-        //setDisplayAdd(!displayAdd)
-        navigate('/add-recipe')
+        setDisplayAdd(!displayAdd)
+        //navigate('/add-recipe')
     }
 
     return(
@@ -50,20 +60,21 @@ const Dashboard = (props) => {
             <h1>Recipe Book</h1>
             {/* search and sort by go here*/}
 
-            <button className='button primary' onClick={handleClick}>Add a Recipe</button>
-            {/* {displayAdd && <form className="form" onSubmit={handleSubmit}>
+            {!displayAdd && <button className='button primary' onClick={handleClick}>Add a Recipe</button>}
+            {displayAdd && <form className="form">
                 <div>
                     <input
                         className="input"
                         type='text'
                         id="recipe_name"
-                        value={name.recipe_name}
+                        value={recipe.recipe_name}
                         placeholder='Name of Recipe'
                         onChange={handleChange}
                     />
                 </div>
                 <button className='button primary' onClick={handleClick}>Cancel</button>
-            </form>} */}
+                <button className='button primary' onClick={handleSubmit}>Submit</button>
+            </form>}
 
             <section className="cards container">
                 {

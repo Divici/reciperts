@@ -1,36 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import { addNewRecipe} from '../../actions';
 import { connect } from 'react-redux';
 import Header from '../Header';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const AddRecipeForm = (props) => {
     const navigate = useNavigate();
-    const userId = localStorage.getItem("user_id");
+    const {recipe_id} = useParams();
+
+    useEffect(()=>{
+       
+        axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
+            .then(res=>{
+                console.log(res.data[0]);
+                setRecipe({
+                    ...recipe,
+                    recipe_name: res.data[0].recipe_name
+                })
+            }) 
+            .catch(err=>{
+                console.log(err.response.data);
+            })   
+    }, []);
 
     const [recipe, setRecipe] = useState({
+        recipe_id: recipe_id,
         recipe_name: '',
         prep_time: 0,
         cook_time: 0,
         category: '',
         source: '',
-        ingredients: [],
-        steps: [],
-        user_id: userId
     })
     const [ingredient, setIngredient] = useState({
         ingredient_name : '',
         ingredient_unit : '',
         quantity: 0,
-        recipe_id: recipe.recipe_id
     })
 
     const [step, setStep] = useState({
         step_instruction : '',
         step_number : 1,
-        recipe_id: recipe.recipe_id
+    })
+
+    const [fullRecipe, setFullRecipe] = useState({
+        recipe: recipe,
+        ingredients: [],
+        steps: []
     })
 
     const handleChange = (e) => {
@@ -57,25 +74,37 @@ const AddRecipeForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axiosWithAuth()
-            .post('/recipes', recipe)
-                .then(res=>{
-                    props.addNewRecipe(res.data);
-                    navigate(`/dashboard`);
-                }) 
-                .catch(err=>{
-                    console.log(err.response.data);
-                })   
-    
+        // axiosWithAuth()
+        //     .post('/', recipe)
+        //         .then(res=>{
+        //             console.log(res.data);
+        //             props.addNewRecipe(res.data);
+        //             navigate(`/dashboard`);
+        //         }) 
+        //         .catch(err=>{
+        //             console.log(err.response.data);
+        //         })   
+        props.addNewRecipe(fullRecipe);
+        navigate(`/dashboard`);
     }
 
     const ingredientAdder = (e) => {
         e.preventDefault();
 
-        setRecipe({
-            ...recipe,
-            ingredients : [...recipe.ingredients, ingredient]
+        setFullRecipe({
+            ...fullRecipe,
+            ingredients : [...fullRecipe.ingredients, ingredient]
         })
+
+        axiosWithAuth()
+            .post(`/${recipe_id}/ingredients`, ingredient)
+                .then(res=>{
+                    console.log(res.data);
+                }) 
+                .catch(err=>{
+                    console.log(err.response.data);
+                })   
+        
         setIngredient({
             ingredient_name : '',
             ingredient_unit : '',
@@ -86,10 +115,20 @@ const AddRecipeForm = (props) => {
     const stepAdder = (e) => {
         e.preventDefault();
 
-        setRecipe({
-            ...recipe,
-            steps : [...recipe.steps, step]
+        setFullRecipe({
+            ...fullRecipe,
+            steps : [...fullRecipe.steps, step]
         })
+
+        axiosWithAuth()
+            .post(`/${recipe_id}/steps`, step)
+                .then(res=>{
+                    console.log(res.data);
+                }) 
+                .catch(err=>{
+                    console.log(err.response.data);
+                })   
+        
         setStep({
             step_instruction : '',
             step_number : step.step_number +1
@@ -114,8 +153,8 @@ const AddRecipeForm = (props) => {
                             <label className="label">Ingredients</label>
                             {
                                 //Showing the current ingredients
-                                recipe.ingredients && recipe.ingredients.map(ingredient=>(
-                                    <p>{ingredient.quantity} {ingredient.ingredient_unit} of {ingredient.ingredient_name}</p>
+                                fullRecipe.ingredients && fullRecipe.ingredients.map((ingredient, i)=>(
+                                    <p key={i}>{ingredient.quantity} {ingredient.ingredient_unit} of {ingredient.ingredient_name}</p>
                                 ))
                             }
                             <input value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input"/>
@@ -128,8 +167,8 @@ const AddRecipeForm = (props) => {
                             <label className="label">Steps</label>
                             {
                                 //Showing the current steps
-                                recipe.steps && recipe.steps.map(step=>(
-                                    <p>{step.step_number}) {step.step_instruction}</p>
+                                fullRecipe.steps && fullRecipe.steps.map((step, i)=>(
+                                    <p key={i}>{step.step_number}) {step.step_instruction}</p>
                                 ))
                             }
                             <input value={step.step_instruction} onChange={handleChangeStep} name="step_instruction" type="text" className="input"/>

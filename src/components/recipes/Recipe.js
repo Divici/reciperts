@@ -42,7 +42,7 @@ const Recipe = (props) => {
                 <div className="left-content static">
                     <h2>Ingredients</h2>
                     {
-                        ingredients.map(ingredient=>(
+                        ingredients && ingredients.map(ingredient=>(
                             <p>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
                         ))
                     }
@@ -50,7 +50,7 @@ const Recipe = (props) => {
                 <div className="right-content scroll">
                     <h2>Directions</h2>
                     {
-                        steps.map(step=>(
+                        steps && steps.map(step=>(
                             <p>{step.step_number}) {step.step_instruction}</p>
                         ))
                     }
