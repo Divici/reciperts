@@ -37,15 +37,6 @@ const Dashboard = (props) => {
                 .catch(err=>{
                     console.log(err.response.data);
                 })   
-        // axios.post(`https://reciperts.herokuapp.com/api/recipes`, recipe)
-        //     .then(res=>{
-        //         props.setPlants([...props.plants, res.data]);
-        //         console.log("my plant", plant)
-        //         push(`/my-plants`);
-		// 	})
-		// 	.catch(err=>{
-		// 		console.log(err.response.data);
-		// 	})
     }
 
     const handleClick = (e) => {

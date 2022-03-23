@@ -74,8 +74,10 @@ const AddRecipeForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        //------------------Make sure to .put or edit the recipe info and check it on the backend too---------------------
+        //------------------Add all the other input fields eg. category, cook time etc -----------------
         // axiosWithAuth()
-        //     .post('/', recipe)
+        //     .put('/', recipe)
         //         .then(res=>{
         //             console.log(res.data);
         //             props.addNewRecipe(res.data);
