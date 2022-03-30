@@ -14,11 +14,11 @@ const AddRecipeForm = (props) => {
        
         axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
             .then(res=>{
-                console.log(res.data[0]);
-                setRecipe({
-                    ...recipe,
-                    recipe_name: res.data[0].recipe_name
-                })
+                console.log(res);
+                // setRecipe({
+                //     ...recipe,
+                //     recipe_name: res.data[0].recipe_name
+                // })
             }) 
             .catch(err=>{
                 console.log(err.response.data);
@@ -37,11 +37,13 @@ const AddRecipeForm = (props) => {
         ingredient_name : '',
         ingredient_unit : '',
         quantity: 0,
+        recipe_id: recipe_id
     })
 
     const [step, setStep] = useState({
         step_instruction : '',
         step_number : 1,
+        recipe_id: recipe_id
     })
 
     const [fullRecipe, setFullRecipe] = useState({
@@ -74,20 +76,18 @@ const AddRecipeForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        //------------------Make sure to .put or edit the recipe info and check it on the backend too---------------------
-        //------------------Add all the other input fields eg. category, cook time etc -----------------
-        // axiosWithAuth()
-        //     .put('/', recipe)
-        //         .then(res=>{
-        //             console.log(res.data);
-        //             props.addNewRecipe(res.data);
-        //             navigate(`/dashboard`);
-        //         }) 
-        //         .catch(err=>{
-        //             console.log(err.response.data);
-        //         })   
-        props.addNewRecipe(fullRecipe);
-        navigate(`/dashboard`);
+        axiosWithAuth()
+            .put(`/${recipe_id}`, recipe)
+                .then(res=>{
+                    console.log(res);
+                    //props.addNewRecipe(recipe);
+                    navigate(`/dashboard`);
+                }) 
+                .catch(err=>{
+                    console.log(err.response.data);
+                })   
+        //props.addNewRecipe(fullRecipe);
+        //navigate(`/dashboard`);
     }
 
     const ingredientAdder = (e) => {
@@ -149,6 +149,16 @@ const AddRecipeForm = (props) => {
                         <div>
                             <label className="label">Recipe Name</label>
                             <input value={recipe.recipe_name} onChange={handleChange} name="recipe_name" type="text" className="input"/>
+                        </div>
+
+                        <div>
+                            <label className="label">Category</label>
+                            <input value={recipe.category} onChange={handleChange} name="category" type="text" className="input"/>
+                        </div>
+
+                        <div>
+                            <label className="label">Source</label>
+                            <input value={recipe.source} onChange={handleChange} name="source" type="text" className="input"/>
                         </div>
 
                         <div>

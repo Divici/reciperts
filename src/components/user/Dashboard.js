@@ -1,15 +1,27 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import axiosWithAuth from "../utils/axiosWithAuth";
 import RecipeCard from "../recipes/RecipeCard";
 import Header from "../Header";
+import { fetchSuccess } from "../../actions";
+import './Dashboard.css'
 
 const Dashboard = (props) => {
     const recipes = props.recipes;
     const userId = localStorage.getItem("user_id");
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        axios.get(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`)
+        .then(resp => {
+            props.fetchSuccess(resp.data.userRecipes);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, []);
 
     const [recipe, setRecipe] = useState({
         recipe_id: Math.floor(Date.now()/1000),
@@ -32,6 +44,7 @@ const Dashboard = (props) => {
         axiosWithAuth()
             .post('/', recipe)
                 .then(res=>{
+                    console.log(res);
                     navigate(`/dashboard/add/${recipe.recipe_id}`);
                 }) 
                 .catch(err=>{
@@ -83,4 +96,4 @@ const mapStateToProps = (state) => {
     });
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, {fetchSuccess})(Dashboard);

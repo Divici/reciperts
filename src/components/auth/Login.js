@@ -26,10 +26,8 @@ const Login = (props) => {
 
         axios.post('https://reciperts.herokuapp.com/api/auth/login', credentials)
             .then(resp=>{
-                console.log(resp.data);
                 localStorage.setItem('token', resp.data.token);
                 localStorage.setItem('user_id', resp.data.user_id)
-                navigate('/dashboard');
             })
             .catch(err=>{
                 setError(err.response.data.message)

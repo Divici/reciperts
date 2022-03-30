@@ -10,16 +10,18 @@ export const SET_ERROR = "SET_ERROR";
 
 const userId = localStorage.getItem("user_id")
 
-export const fetchRecipes = () => (dispatch) => {
-    dispatch(fetchStart());
-    axios.get(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`)
-        .then(resp => {
-            dispatch(fetchSuccess(resp.data));
-        })
-        .catch(err => {
-            dispatch(fetchFail(err));
-        })
-}
+// export const fetchRecipes = () => (dispatch) => {
+//     dispatch(fetchStart());
+//     axios.get(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`)
+//         .then(resp => {
+//             console.log(resp.data.userRecipes);
+//             console.log('------------------------------------');
+//             //dispatch(fetchSuccess(resp.data.userRecipes));
+//         })
+//         .catch(err => {
+//             dispatch(fetchFail(err));
+//         })
+// }
 
 export const fetchStart = () => {
     return({type:FETCH_START});

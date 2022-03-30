@@ -1,0 +1,12 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem;
+}
+
+.card {
+    margin: 1rem;
+    padding: 1rem;
+    width: 15rem;
+    border: 1px solid black;
+}
