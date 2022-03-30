@@ -14,17 +14,28 @@ const AddRecipeForm = (props) => {
        
         axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
             .then(res=>{
-                console.log(res);
-                // setRecipe({
-                //     ...recipe,
-                //     recipe_name: res.data[0].recipe_name
-                // })
+                setRecipe({
+                    ...recipe,
+                    recipe_name: res.data.recipe[0].recipe_name
+                })
             }) 
             .catch(err=>{
                 console.log(err.response.data);
             })   
     }, []);
 
+    const [prep, setPrep] = useState({
+        hours: 0,
+        mins : 1,
+    })
+    let totalPrep = (prep.hours*60) + Number(prep.mins)
+
+    const [cook, setCook] = useState({
+        hours: 0,
+        mins : 1
+    })
+    let totalCook = (cook.hours*60) + Number(cook.mins)
+    
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
         recipe_name: '',
@@ -33,6 +44,7 @@ const AddRecipeForm = (props) => {
         category: '',
         source: '',
     })
+
     const [ingredient, setIngredient] = useState({
         ingredient_name : '',
         ingredient_unit : '',
@@ -59,6 +71,22 @@ const AddRecipeForm = (props) => {
         });
     }
 
+    const handleChangePrep = (e) => {
+        e.preventDefault();
+        setPrep({
+            ...prep,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleChangeCook = (e) => {
+        e.preventDefault();
+        setCook({
+            ...cook,
+            [e.target.name]: e.target.value
+        });
+    }
+
     const handleChangeStep = (e) => {
         setStep({
             ...step,
@@ -76,18 +104,19 @@ const AddRecipeForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        setRecipe({
+            ...recipe,
+            prep_time: totalPrep,
+            cook_time: totalCook
+        })
         axiosWithAuth()
             .put(`/${recipe_id}`, recipe)
                 .then(res=>{
-                    console.log(res);
-                    //props.addNewRecipe(recipe);
                     navigate(`/dashboard`);
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
                 })   
-        //props.addNewRecipe(fullRecipe);
-        //navigate(`/dashboard`);
     }
 
     const ingredientAdder = (e) => {
@@ -101,7 +130,7 @@ const AddRecipeForm = (props) => {
         axiosWithAuth()
             .post(`/${recipe_id}/ingredients`, ingredient)
                 .then(res=>{
-                    console.log(res.data);
+                    console.log('ingredient added');
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
@@ -125,7 +154,7 @@ const AddRecipeForm = (props) => {
         axiosWithAuth()
             .post(`/${recipe_id}/steps`, step)
                 .then(res=>{
-                    console.log(res.data);
+                    console.log('step added');
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
@@ -159,6 +188,16 @@ const AddRecipeForm = (props) => {
                         <div>
                             <label className="label">Source</label>
                             <input value={recipe.source} onChange={handleChange} name="source" type="text" className="input"/>
+                        </div>
+
+                        <div>
+                            <div>Prep Time</div>
+                            <label>Hours</label><input value={prep.hours} onChange={handleChangePrep} name="hours" type="number" placeholder='Hours' />
+                            <label>Minutes</label><input value={prep.mins} onChange={handleChangePrep} name="mins" type="number" placeholder='Minutes' />
+
+                            <div>Cook Time</div>
+                            <label>Hours</label><input value={cook.hours} onChange={handleChangeCook} name="hours" type="number" placeholder='Hours' />
+                            <label>Minutes</label><input value={cook.mins} onChange={handleChangeCook} name="mins" type="number" placeholder='Minutes' />
                         </div>
 
                         <div>

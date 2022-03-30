@@ -1,27 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from "../Header";
 
 const Recipe = (props) => {
     const {recipe_id} = useParams();
-    const recipes = props.recipes;
     const navigate = useNavigate();
-
-    const searched = []
-
-    useEffect(()=>{
-       
-        axios.get(`https://reciperts.herokuapp.com/api/recipes/:${recipe_id}`,)
-            .then(res=>{
-                console.log(res);
-                //setRecipe(res.data[0])
-            }) 
-            .catch(err=>{
-                console.log(err.response.data);
-            })   
-    }, []);
 
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
@@ -33,17 +18,20 @@ const Recipe = (props) => {
         ingredients: [],
         steps: []
     })
-    
-    // recipes.map(recipe=> {
-    //     if(recipe.recipe_id === recipe_id){
-    //         searched.push(recipe)
-    //     }
-    // })
 
-    // console.log('===============================================');
-    // console.log(recipe);
-    // console.log('===============================================');
-
+    useEffect(()=>{
+        axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
+            .then(res=>{
+                setRecipe({
+                    ...res.data.recipe[0],
+                    ingredients: res.data.ingredients,
+                    steps: res.data.steps
+                })
+            }) 
+            .catch(err=>{
+                console.log(err.response.data);
+            })   
+    }, []);
 
     const handleClick = () => {
         navigate(`/dashboard/edit/${recipe_id}`);
@@ -55,14 +43,14 @@ const Recipe = (props) => {
 
             <header>
                 <div>
-                    <h1>recipe name: {recipe.recipe_name}</h1>
+                    <h1>{recipe.recipe_name}</h1>
                     <h2>category: {recipe.category}</h2>
                 </div>
                 <div className="inline-block capitalize">
                     <h2>prep time: {recipe.prep_time}</h2>
-                    <h2>{recipe.prep_time}</h2>
-                    <button onClick={handleClick} className="primary">Edit</button>
+                    <h2>cook time: {recipe.cook_time}</h2>
                 </div>
+                <button onClick={handleClick} className="primary">Edit</button>
             </header>
 
             <section>
@@ -70,7 +58,7 @@ const Recipe = (props) => {
                     <h2>Ingredients</h2>
                     {
                         recipe.ingredients && recipe.ingredients.map(ingredient=>(
-                            <p>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
+                            <p key={ingredient.ingredient_id}>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
                         ))
                     }
                 </div>
@@ -78,11 +66,13 @@ const Recipe = (props) => {
                     <h2>Directions</h2>
                     {
                         recipe.steps && recipe.steps.map(step=>(
-                            <p>{step.step_number}) {step.step_instruction}</p>
+                            <p key={step.step_id}>{step.step_number}) {step.step_instruction}</p>
                         ))
                     }
                 </div>
             </section>
+
+            <button onClick={handleClick} className="primary">Edit</button>
 
             <footer>
                 <h3>From {recipe.source}</h3>
@@ -92,10 +82,10 @@ const Recipe = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return ({
-        recipes: state.recipes
-    });
-}
+// const mapStateToProps = (state) => {
+//     return ({
+//         recipes: state.recipes
+//     });
+// }
 
-export default connect(mapStateToProps)(Recipe);
+export default Recipe;
