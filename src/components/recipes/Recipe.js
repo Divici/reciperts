@@ -31,7 +31,7 @@ const Recipe = (props) => {
             .catch(err=>{
                 console.log(err.response.data);
             })   
-    }, []);
+    }, [recipe_id]);
 
     const handleClick = () => {
         navigate(`/dashboard/edit/${recipe_id}`);

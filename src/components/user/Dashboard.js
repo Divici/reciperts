@@ -44,7 +44,6 @@ const Dashboard = (props) => {
         axiosWithAuth()
             .post('/', recipe)
                 .then(res=>{
-                    console.log(res);
                     navigate(`/dashboard/add/${recipe.recipe_id}`);
                 }) 
                 .catch(err=>{
@@ -55,7 +54,6 @@ const Dashboard = (props) => {
     const handleClick = (e) => {
         e.preventDefault();
         setDisplayAdd(!displayAdd)
-        //navigate('/add-recipe')
     }
 
     return(
@@ -87,7 +85,6 @@ const Dashboard = (props) => {
             </section>
         </div>
     )
-    
 }
 
 const mapStateToProps = (state) => {

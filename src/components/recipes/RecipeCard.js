@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { connect } from 'react-redux';
 import axiosWithAuth from "../utils/axiosWithAuth";
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +16,6 @@ const RecipeCard = (props) => {
         axiosWithAuth()
         .delete(`/${recipe_id}`)
             .then(resp=>{
-                console.log(resp);
                 props.deleteRecipe(recipe_id)
             }) 
             .catch(err=>{

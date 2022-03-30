@@ -4,7 +4,7 @@ import axiosWithAuth from '../utils/axiosWithAuth';
 import { addNewRecipe} from '../../actions';
 import { connect } from 'react-redux';
 import Header from '../Header';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddRecipeForm = (props) => {
     const navigate = useNavigate();
@@ -23,18 +23,6 @@ const AddRecipeForm = (props) => {
                 console.log(err.response.data);
             })   
     }, []);
-
-    const [prep, setPrep] = useState({
-        hours: 0,
-        mins : 1,
-    })
-    let totalPrep = (prep.hours*60) + Number(prep.mins)
-
-    const [cook, setCook] = useState({
-        hours: 0,
-        mins : 1
-    })
-    let totalCook = (cook.hours*60) + Number(cook.mins)
     
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
@@ -71,22 +59,6 @@ const AddRecipeForm = (props) => {
         });
     }
 
-    const handleChangePrep = (e) => {
-        e.preventDefault();
-        setPrep({
-            ...prep,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const handleChangeCook = (e) => {
-        e.preventDefault();
-        setCook({
-            ...cook,
-            [e.target.name]: e.target.value
-        });
-    }
-
     const handleChangeStep = (e) => {
         setStep({
             ...step,
@@ -103,12 +75,7 @@ const AddRecipeForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        setRecipe({
-            ...recipe,
-            prep_time: totalPrep,
-            cook_time: totalCook
-        })
+      
         axiosWithAuth()
             .put(`/${recipe_id}`, recipe)
                 .then(res=>{
@@ -192,12 +159,10 @@ const AddRecipeForm = (props) => {
 
                         <div>
                             <div>Prep Time</div>
-                            <label>Hours</label><input value={prep.hours} onChange={handleChangePrep} name="hours" type="number" placeholder='Hours' />
-                            <label>Minutes</label><input value={prep.mins} onChange={handleChangePrep} name="mins" type="number" placeholder='Minutes' />
-
+                            <label>How many minutes: </label><input value={recipe.prep_time} onChange={handleChange} name="prep_time" type="number" placeholder='Minutes' />
+                            
                             <div>Cook Time</div>
-                            <label>Hours</label><input value={cook.hours} onChange={handleChangeCook} name="hours" type="number" placeholder='Hours' />
-                            <label>Minutes</label><input value={cook.mins} onChange={handleChangeCook} name="mins" type="number" placeholder='Minutes' />
+                            <label>How many minutes: </label><input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="number" placeholder='Minutes' />
                         </div>
 
                         <div>
