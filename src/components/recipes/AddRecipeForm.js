@@ -11,17 +11,17 @@ const AddRecipeForm = (props) => {
     const {recipe_id} = useParams();
 
     useEffect(()=>{
-       
-        axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
-            .then(res=>{
-                setRecipe({
-                    ...recipe,
-                    recipe_name: res.data.recipe[0].recipe_name
-                })
-            }) 
-            .catch(err=>{
-                console.log(err.response.data);
-            })   
+        axiosWithAuth()
+            .get(`/${recipe_id}`)
+                .then(res=>{
+                    setRecipe({
+                        ...recipe,
+                        recipe_name: res.data.recipe[0].recipe_name
+                    })
+                }) 
+                .catch(err=>{
+                    console.log(err.response.data);
+                })   
     }, []);
     
     const [recipe, setRecipe] = useState({

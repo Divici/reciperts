@@ -5,6 +5,7 @@ import axiosWithAuth from "../utils/axiosWithAuth";
 import Header from "../Header";
 
 const EditRecipe = (props) => {
+    const user_id = localStorage.getItem("user_id");
     const navigate = useNavigate();
     const {recipe_id} = useParams();
 

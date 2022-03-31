@@ -10,11 +10,11 @@ import './Dashboard.css'
 
 const Dashboard = (props) => {
     const recipes = props.recipes;
-    const userId = localStorage.getItem("user_id");
+    const user_id = localStorage.getItem("user_id");
     const navigate = useNavigate();
 
     useEffect(()=>{
-        axios.get(`https://reciperts.herokuapp.com/api/users/${userId}/recipes`)
+        axios.get(`https://reciperts.herokuapp.com/api/users/${user_id}/recipes`)
         .then(resp => {
             props.fetchSuccess(resp.data.userRecipes);
         })
@@ -26,7 +26,7 @@ const Dashboard = (props) => {
     const [recipe, setRecipe] = useState({
         recipe_id: Math.floor(Date.now()/1000),
         recipe_name: '',
-        user_id: userId
+        user_id: user_id
     })
 
     const [displayAdd, setDisplayAdd] = useState(false);

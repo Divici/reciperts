@@ -11,7 +11,7 @@ const Header = () => {
             <ul className='nav'>
                 {!token && <li><Link to="/login">Login</Link></li>}
                 {!token && <li><Link to="/signup">Signup</Link></li>}
-                {token && <li><Link to="/dashboard">Dashboard</Link></li>}
+                {token && <li><Link to={`/dashboard`}>Dashboard</Link></li>}
                 {token && <li><Link to="/logout">Logout</Link></li>}
             </ul>
         </div>

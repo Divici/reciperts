@@ -33,7 +33,7 @@ const RecipeCard = (props) => {
                 <p>Prep Time: {prep_time}</p>
                 <p>Cook Time: {cook_time}</p>
             </div>
-            <button onClick={handleClick} className='button secondary'>View Recipe</button>
+            <button onClick={handleClick} className='button secondary'>View</button>
             <button onClick={handleDelete} className='button secondary'>Delete</button>
         </div>
     )

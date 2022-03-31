@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import axiosWithAuth from "../utils/axiosWithAuth";
 //import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from "../Header";
 
 const Recipe = (props) => {
+    //const user_id = localStorage.getItem("user_id");
     const {recipe_id} = useParams();
     const navigate = useNavigate();
 
@@ -20,7 +22,8 @@ const Recipe = (props) => {
     })
 
     useEffect(()=>{
-        axios.get(`https://reciperts.herokuapp.com/api/recipes/${recipe_id}`,)
+        axiosWithAuth()
+            .get(`/${recipe_id}`,)
             .then(res=>{
                 setRecipe({
                     ...res.data.recipe[0],
@@ -31,6 +34,18 @@ const Recipe = (props) => {
             .catch(err=>{
                 console.log(err.response.data);
             })   
+
+        // axios.get(`https://reciperts.herokuapp.com/api/recipes/${user_id}/${recipe_id}`,)
+        //     .then(res=>{
+        //         setRecipe({
+        //             ...res.data.recipe[0],
+        //             ingredients: res.data.ingredients,
+        //             steps: res.data.steps
+        //         })
+        //     }) 
+        //     .catch(err=>{
+        //         console.log(err.response.data);
+        //     })   
     }, [recipe_id]);
 
     const handleClick = () => {
