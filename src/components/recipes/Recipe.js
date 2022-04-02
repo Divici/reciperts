@@ -13,39 +13,27 @@ const Recipe = (props) => {
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
         recipe_name: '',
-        prep_time: 0,
-        cook_time: 0,
+        prep_time: '',
+        cook_time: '',
         category: '',
         source: '',
-        ingredients: [],
-        steps: []
+        ingredients: '',
+        steps: ''
     })
 
     useEffect(()=>{
         axiosWithAuth()
             .get(`/${recipe_id}`,)
             .then(res=>{
+                console.log('==================useEffect GET on View Page =======================',res);
                 setRecipe({
-                    ...res.data.recipe[0],
-                    ingredients: res.data.ingredients,
-                    steps: res.data.steps
+                    ...res.data[0],
                 })
             }) 
             .catch(err=>{
                 console.log(err.response.data);
             })   
 
-        // axios.get(`https://reciperts.herokuapp.com/api/recipes/${user_id}/${recipe_id}`,)
-        //     .then(res=>{
-        //         setRecipe({
-        //             ...res.data.recipe[0],
-        //             ingredients: res.data.ingredients,
-        //             steps: res.data.steps
-        //         })
-        //     }) 
-        //     .catch(err=>{
-        //         console.log(err.response.data);
-        //     })   
     }, [recipe_id]);
 
     const handleClick = () => {
@@ -71,19 +59,15 @@ const Recipe = (props) => {
             <section>
                 <div className="left-content static">
                     <h2>Ingredients</h2>
-                    {
+                    {/* {
                         recipe.ingredients && recipe.ingredients.map(ingredient=>(
                             <p key={ingredient.ingredient_id}>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
                         ))
-                    }
+                    } */}
                 </div>
                 <div className="right-content scroll">
                     <h2>Directions</h2>
-                    {
-                        recipe.steps && recipe.steps.map(step=>(
-                            <p key={step.step_id}>{step.step_number}) {step.step_instruction}</p>
-                        ))
-                    }
+                    <p>{recipe.steps}</p>
                 </div>
             </section>
 

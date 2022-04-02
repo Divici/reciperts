@@ -20,8 +20,8 @@ function App() {
         <Routes>
 
           <Route element={<PrivateRoute />}>
-            <Route path={`/dashboard/add/:recipe_id`} element={<AddRecipeForm/>} />
-            <Route path={`/dashboard/edit/:recipe_id`} element={<EditRecipe/>} />
+            <Route path={`/dashboard/edit/:recipe_id`} element={<AddRecipeForm/>} />
+            {/* <Route path={`/dashboard/edit/:recipe_id`} element={<EditRecipe/>} /> */}
             <Route path={`/dashboard/view/:recipe_id`} element={<Recipe/>} />
             <Route path={`/dashboard`} element={<Dashboard/>} />   
             <Route path='/logout' element={<Logout/>} />

@@ -14,9 +14,10 @@ const AddRecipeForm = (props) => {
         axiosWithAuth()
             .get(`/${recipe_id}`)
                 .then(res=>{
+                    console.log('==================useEffect GET on Edit Page =======================',res);
                     setRecipe({
                         ...recipe,
-                        recipe_name: res.data.recipe[0].recipe_name
+                        recipe_name: res.data[0].recipe_name
                     })
                 }) 
                 .catch(err=>{
@@ -27,10 +28,12 @@ const AddRecipeForm = (props) => {
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
         recipe_name: '',
-        prep_time: 0,
-        cook_time: 0,
+        prep_time: '',
+        cook_time: '',
         category: '',
         source: '',
+        ingredients: '',
+        steps: ''
     })
 
     const [ingredient, setIngredient] = useState({
@@ -40,28 +43,15 @@ const AddRecipeForm = (props) => {
         recipe_id: recipe_id
     })
 
-    const [step, setStep] = useState({
-        step_instruction : '',
-        step_number : 1,
-        recipe_id: recipe_id
-    })
 
     const [fullRecipe, setFullRecipe] = useState({
         recipe: recipe,
         ingredients: [],
-        steps: []
     })
 
     const handleChange = (e) => {
         setRecipe({
             ...recipe,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const handleChangeStep = (e) => {
-        setStep({
-            ...step,
             [e.target.name]: e.target.value
         });
     }
@@ -79,6 +69,7 @@ const AddRecipeForm = (props) => {
         axiosWithAuth()
             .put(`/${recipe_id}`, recipe)
                 .then(res=>{
+                    console.log('==================Submit PUT on Edit Page =======================',res);
                     navigate(`/dashboard`);
                 }) 
                 .catch(err=>{
@@ -86,6 +77,7 @@ const AddRecipeForm = (props) => {
                 })   
     }
 
+    //This will need to change to a helper to map and join
     const ingredientAdder = (e) => {
         e.preventDefault();
 
@@ -93,43 +85,11 @@ const AddRecipeForm = (props) => {
             ...fullRecipe,
             ingredients : [...fullRecipe.ingredients, ingredient]
         })
-
-        axiosWithAuth()
-            .post(`/${recipe_id}/ingredients`, ingredient)
-                .then(res=>{
-                    console.log('ingredient added');
-                }) 
-                .catch(err=>{
-                    console.log(err.response.data);
-                })   
         
         setIngredient({
             ingredient_name : '',
             ingredient_unit : '',
             quantity: 0,
-        })
-    }
-
-    const stepAdder = (e) => {
-        e.preventDefault();
-
-        setFullRecipe({
-            ...fullRecipe,
-            steps : [...fullRecipe.steps, step]
-        })
-
-        axiosWithAuth()
-            .post(`/${recipe_id}/steps`, step)
-                .then(res=>{
-                    console.log('step added');
-                }) 
-                .catch(err=>{
-                    console.log(err.response.data);
-                })   
-        
-        setStep({
-            step_instruction : '',
-            step_number : step.step_number +1
         })
     }
 
@@ -139,7 +99,7 @@ const AddRecipeForm = (props) => {
             <div className="container">
                 <form className="form" onSubmit={handleSubmit}>
                     <div>
-                        <h1 className='title'>Add a Recipe</h1>
+                        <h1 className='title'>{recipe.recipe_name}</h1>
                     </div>
                     <div>
                         <div>
@@ -159,13 +119,13 @@ const AddRecipeForm = (props) => {
 
                         <div>
                             <div>Prep Time</div>
-                            <label>How many minutes: </label><input value={recipe.prep_time} onChange={handleChange} name="prep_time" type="number" placeholder='Minutes' />
+                            <input value={recipe.prep_time} onChange={handleChange} name="prep_time" type="text" placeholder='How long' />
                             
                             <div>Cook Time</div>
-                            <label>How many minutes: </label><input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="number" placeholder='Minutes' />
+                            <input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="text" placeholder='How long' />
                         </div>
 
-                        <div>
+                        {/* <div>
                             <label className="label">Ingredients</label>
                             {
                                 //Showing the current ingredients
@@ -177,18 +137,11 @@ const AddRecipeForm = (props) => {
                             <input value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
                             <label>Amount</label><input value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
                             <button onClick={ingredientAdder}>Add ingredient</button>
-                        </div>
+                        </div> */}
 
                         <div>
                             <label className="label">Steps</label>
-                            {
-                                //Showing the current steps
-                                fullRecipe.steps && fullRecipe.steps.map((step, i)=>(
-                                    <p key={i}>{step.step_number}) {step.step_instruction}</p>
-                                ))
-                            }
-                            <input value={step.step_instruction} onChange={handleChangeStep} name="step_instruction" type="text" className="input"/>
-                            <button onClick={stepAdder}>Add step</button>
+                            <textarea value={recipe.steps} onChange={handleChange} name="steps" />
                         </div>
                         
                     </div>
