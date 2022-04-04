@@ -4,12 +4,29 @@ import axiosWithAuth from "../utils/axiosWithAuth";
 //import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from "../Header";
+import { makeIngredientsArray } from "../utils/helpers";
 
 const Recipe = (props) => {
     //const user_id = localStorage.getItem("user_id");
     const {recipe_id} = useParams();
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        axiosWithAuth()
+            .get(`/${recipe_id}`,)
+            .then(res=>{
+                console.log('==================useEffect GET on View Page =======================',res);
+                setRecipe({
+                    ...res.data[0],
+                    ingredients: makeIngredientsArray(res.data[0].ingredients)
+                })
+            }) 
+            .catch(err=>{
+                console.log(err.response.data);
+            })   
+
+    }, [recipe_id]);
+    
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
         recipe_name: '',
@@ -20,21 +37,6 @@ const Recipe = (props) => {
         ingredients: [],
         steps: ''
     })
-
-    useEffect(()=>{
-        axiosWithAuth()
-            .get(`/${recipe_id}`,)
-            .then(res=>{
-                console.log('==================useEffect GET on View Page =======================',res);
-                setRecipe({
-                    ...res.data[0],
-                })
-            }) 
-            .catch(err=>{
-                console.log(err.response.data);
-            })   
-
-    }, [recipe_id]);
 
     const handleClick = () => {
         navigate(`/dashboard/edit/${recipe_id}`);
@@ -59,11 +61,11 @@ const Recipe = (props) => {
             <section>
                 <div className="left-content static">
                     <h2>Ingredients</h2>
-                    {/* {
-                        recipe.ingredients && recipe.ingredients.map(ingredient=>(
-                            <p key={ingredient.ingredient_id}>{ingredient.quantity} {ingredient.ingredient_unit} {ingredient.ingredient_name}</p>
+                    {
+                        recipe.ingredients && recipe.ingredients.map((ingredient, i) =>(
+                            <p key={i}>{ingredient.quantity} {ingredient.ingredient_unit} of {ingredient.ingredient_name}</p>
                         ))
-                    } */}
+                    }
                 </div>
                 <div className="right-content scroll">
                     <h2>Directions</h2>
