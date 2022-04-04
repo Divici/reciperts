@@ -16,7 +16,6 @@ const Dashboard = (props) => {
     useEffect(()=>{
         axios.get(`https://reciperts.herokuapp.com/api/users/${user_id}/recipes`)
         .then(resp => {
-            console.log('=========useEffect on Dashboard ============',resp);
             props.fetchSuccess(resp.data.userRecipes);
         })
         .catch(err => {
@@ -45,7 +44,6 @@ const Dashboard = (props) => {
         axiosWithAuth()
             .post('/', recipe)
                 .then(res=>{
-                    console.log('==================submit on Dashboard =======================',res);
                     navigate(`/dashboard/edit/${recipe.recipe_id}`);
                 }) 
                 .catch(err=>{
@@ -91,7 +89,7 @@ const Dashboard = (props) => {
 
 const mapStateToProps = (state) => {
     return ({
-        recipes: state.recipes
+        recipes: state.recipes,
     });
 }
 

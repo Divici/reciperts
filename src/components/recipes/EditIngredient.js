@@ -1,17 +1,19 @@
-import React, {useState, useEffect} from "react";
-import axiosWithAuth from "../utils/axiosWithAuth";
-import Header from "../Header";
+import React, {useState} from "react";
+import { connect } from "react-redux";
+import { addIngredient } from "../../actions";
 
 const EditIngredient = (props) => {
-    const { ingredient_id, quantity, ingredient_unit, ingredient_name } = props.recipe;
+    const { quantity, ingredient_unit, ingredient_name, ing_id} = props.ingredient;
+    const {toggled, edit} = props
 
     const [ingredient, setIngredient] = useState({
-        ingredient_name : ingredient_name,
-        ingredient_unit : ingredient_unit,
-        quantity: quantity,
+        quantity: quantity || 0,
+        ingredient_unit : ingredient_unit || '',
+        ingredient_name : ingredient_name || '',
+        ing_id: ing_id || Math.floor(Date.now()/1000)
     })
 
-    const [edit, setEdit] = useState(false)
+    const [toggle, setToggle] = useState(toggled)
 
     const handleChangeIngredient = (e) => {
         setIngredient({
@@ -21,26 +23,54 @@ const EditIngredient = (props) => {
     }
 
     const handleToggle = (e) => {
-        //blank for now
+        e.preventDefault();
+        setToggle(!toggled)
+    }
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        props.addIng(ingredient)
+        setIngredient({
+            quantity: 0,
+            ingredient_unit : '',
+            ingredient_name : '',
+        })
+    }
+
+    const handleEdit = (e) => {
+        e.preventDefault();
+        setToggle(true)
+        props.editIng(ingredient, ingredient.ing_id)
+    }
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        props.deleteIng(ingredient)
     }
 
     return (
         <div>
-            <Header/>
+                <div>
+                    <input disabled={toggle} value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input" />
+                    <input disabled={toggle} value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
+                    <label>Amount</label><input disabled={toggle} value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
+                </div>
+                <div>
+                    {edit && 
+                        <div>
+                            { toggle ? <button onClick={handleToggle}>Edit</button> : <button onClick={handleEdit}>Done</button>}
+                            <button onClick={handleDelete}>Delete</button>
+                        </div>
+                    }
+                    {!edit && 
+                        <div>
+                            <button onClick={handleAdd}>Add</button>
+                        </div>
+                    }
+                </div>
 
-            <form>
-                <div>
-                    <input value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input"/>
-                    <input value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
-                    <label>Amount</label><input value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
-                </div>
-                <div>
-                    {edit ? <button>Edit</button> : <button>Done</button> }
-                    <button>Delete</button>
-                </div>
-            </form>
         </div>
     )
 }
 
-export default EditIngredient;
+export default connect(null, {addIngredient})(EditIngredient);

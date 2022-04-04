@@ -1,10 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import axiosWithAuth from '../utils/axiosWithAuth';
-import { addNewRecipe} from '../../actions';
+import { addNewRecipe } from '../../actions';
 import { connect } from 'react-redux';
 import Header from '../Header';
 import { useNavigate, useParams } from 'react-router-dom';
+import EditIngredient from './EditIngredient';
+
+const outJoiner = '*0uT7o1n3r*'
+const inJoiner = '-1n8J0i2e4-'
+
+const makeIngredientsArray = (string) => {
+    let ingArr = []
+    if(string && string.length !== 0){
+        const outerArray = string.split(outJoiner)
+        outerArray.forEach(ingStr => {
+            let inner = ingStr.split(inJoiner)
+            let ingObj = {
+                quantity: Number(inner[0]),
+                ingredient_unit : inner[1],
+                ingredient_name: inner[2],
+                ing_id : Math.floor(Date.now()/1000)
+            }
+            ingArr.push(ingObj)
+        })
+    }
+    
+    return ingArr
+}
+
+const makeIngredientsString = (array) => {
+    if(array && array.length > 0){
+        let ingStr = ''
+        array.forEach(ing=>{
+            ingStr += 
+            outJoiner + ing.quantity.toString() 
+            + inJoiner + ing.ingredient_unit 
+            + inJoiner + ing.ingredient_name
+        })
+
+        return ingStr
+    }
+    return ''
+}
+
+const ingredientsList = []
 
 const AddRecipeForm = (props) => {
     const navigate = useNavigate();
@@ -14,16 +54,17 @@ const AddRecipeForm = (props) => {
         axiosWithAuth()
             .get(`/${recipe_id}`)
                 .then(res=>{
-                    console.log('==================useEffect GET on Edit Page =======================',res);
                     setRecipe({
                         ...recipe,
-                        recipe_name: res.data[0].recipe_name
+                        recipe_name: res.data[0].recipe_name,
+                        ingredients: makeIngredientsArray(res.data[0].ingredients)
                     })
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
                 })   
     }, []);
+
     
     const [recipe, setRecipe] = useState({
         recipe_id: recipe_id,
@@ -32,22 +73,37 @@ const AddRecipeForm = (props) => {
         cook_time: '',
         category: '',
         source: '',
-        ingredients: '',
+        ingredients: [],
         steps: ''
     })
 
-    const [ingredient, setIngredient] = useState({
-        ingredient_name : '',
-        ingredient_unit : '',
-        quantity: 0,
-        recipe_id: recipe_id
-    })
+    const addIng = (ingredient) => {
+        ingredientsList.push({...ingredient, ing_id: Math.floor(Date.now()/1000)})
+        
+        setRecipe({
+            ...recipe,
+            ingredients: ingredientsList
+        })
+    }
 
+    const editIng = (ingredient, id) => {
+        ingredientsList.forEach((ing, i)=>{
+            if(ing.ing_id === id){
+                ingredientsList[i] = ingredient
+            }
+        })
+        setRecipe({
+            ...recipe,
+            ingredients: ingredientsList
+        })
+    }
 
-    const [fullRecipe, setFullRecipe] = useState({
-        recipe: recipe,
-        ingredients: [],
-    })
+    const deleteIng = (ingredient) => {
+        setRecipe({
+            ...recipe,
+            ingredients: recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
+        })
+    }
 
     const handleChange = (e) => {
         setRecipe({
@@ -56,18 +112,11 @@ const AddRecipeForm = (props) => {
         });
     }
 
-    const handleChangeIngredient = (e) => {
-        setIngredient({
-            ...ingredient,
-            [e.target.name]: e.target.value
-        });
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
       
         axiosWithAuth()
-            .put(`/${recipe_id}`, recipe)
+            .put(`/${recipe_id}`, {...recipe, ingredients: makeIngredientsString(recipe.ingredients)})
                 .then(res=>{
                     console.log('==================Submit PUT on Edit Page =======================',res);
                     navigate(`/dashboard`);
@@ -77,21 +126,8 @@ const AddRecipeForm = (props) => {
                 })   
     }
 
-    //This will need to change to a helper to map and join
-    const ingredientAdder = (e) => {
-        e.preventDefault();
-
-        setFullRecipe({
-            ...fullRecipe,
-            ingredients : [...fullRecipe.ingredients, ingredient]
-        })
-        
-        setIngredient({
-            ingredient_name : '',
-            ingredient_unit : '',
-            quantity: 0,
-        })
-    }
+    console.log('------------the ingredients: ---------');
+    console.log(recipe.ingredients);
 
     return(
         <div>
@@ -125,19 +161,24 @@ const AddRecipeForm = (props) => {
                             <input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="text" placeholder='How long' />
                         </div>
 
-                        {/* <div>
+                        <div>
                             <label className="label">Ingredients</label>
                             {
-                                //Showing the current ingredients
-                                fullRecipe.ingredients && fullRecipe.ingredients.map((ingredient, i)=>(
-                                    <p key={i}>{ingredient.quantity} {ingredient.ingredient_unit} of {ingredient.ingredient_name}</p>
-                                ))
+                                recipe.ingredients.length > 0 && 
+                                    
+                                    recipe.ingredients.map((ingredient, i)=>(
+                                        <EditIngredient ingredient={ingredient} edit={true} toggled={true} key={i} editIng={editIng} deleteIng={deleteIng} />
+                                    ))
+                                    
+                                   
                             }
-                            <input value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input"/>
+                            <EditIngredient ingredient={{}} edit={false} toggled={false} addIng={addIng} deleteIng={deleteIng} />
+
+                            {/* <input value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input"/>
                             <input value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
                             <label>Amount</label><input value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
-                            <button onClick={ingredientAdder}>Add ingredient</button>
-                        </div> */}
+                            <button onClick={ingredientAdder}>Add ingredient</button> */}
+                        </div>
 
                         <div>
                             <label className="label">Steps</label>
@@ -154,4 +195,10 @@ const AddRecipeForm = (props) => {
     )
 }
 
-export default connect(null, {addNewRecipe})(AddRecipeForm);
+const mapStateToProps = (state) => {
+    return ({
+        ingredients: state.ingredients,
+    });
+}
+
+export default connect(mapStateToProps, {addNewRecipe})(AddRecipeForm);

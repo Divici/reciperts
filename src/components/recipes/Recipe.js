@@ -17,7 +17,7 @@ const Recipe = (props) => {
         cook_time: '',
         category: '',
         source: '',
-        ingredients: '',
+        ingredients: [],
         steps: ''
     })
 
