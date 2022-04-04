@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import { connect } from "react-redux";
-import { addIngredient } from "../../actions";
 
 const EditIngredient = (props) => {
     const { quantity, ingredient_unit, ingredient_name, ing_id} = props.ingredient;
@@ -73,4 +71,4 @@ const EditIngredient = (props) => {
     )
 }
 
-export default connect(null, {addIngredient})(EditIngredient);
+export default EditIngredient;

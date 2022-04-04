@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import axiosWithAuth from '../utils/axiosWithAuth';
-import { addNewRecipe } from '../../actions';
-import { connect } from 'react-redux';
 import Header from '../Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIngredient from './EditIngredient';
@@ -10,7 +7,7 @@ import { makeIngredientsArray, makeIngredientsString } from '../utils/helpers';
 
 const ingredientsList = []
 
-const AddRecipeForm = (props) => {
+const RecipeForm = (props) => {
     const navigate = useNavigate();
     const {recipe_id} = useParams();
 
@@ -90,9 +87,6 @@ const AddRecipeForm = (props) => {
                 })   
     }
 
-    console.log('------------the ingredients: ---------');
-    console.log(recipe.ingredients);
-
     return(
         <div>
             <Header/>
@@ -137,11 +131,6 @@ const AddRecipeForm = (props) => {
                                    
                             }
                             <EditIngredient ingredient={{}} edit={false} toggled={false} addIng={addIng} deleteIng={deleteIng} />
-
-                            {/* <input value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input"/>
-                            <input value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
-                            <label>Amount</label><input value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
-                            <button onClick={ingredientAdder}>Add ingredient</button> */}
                         </div>
 
                         <div>
@@ -159,10 +148,4 @@ const AddRecipeForm = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return ({
-        ingredients: state.ingredients,
-    });
-}
-
-export default connect(mapStateToProps, {addNewRecipe})(AddRecipeForm);
+export default RecipeForm;

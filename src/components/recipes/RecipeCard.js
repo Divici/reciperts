@@ -12,6 +12,10 @@ const RecipeCard = (props) => {
         navigate(`/dashboard/view/${recipe_id}`);
     }
 
+    const handleEdit = () => {
+        navigate(`/dashboard/edit/${recipe_id}`);
+    }
+
     const handleDelete = () => {
         axiosWithAuth()
         .delete(`/${recipe_id}`)
@@ -34,6 +38,7 @@ const RecipeCard = (props) => {
                 <p>Cook Time: {cook_time}</p>
             </div>
             <button onClick={handleClick} className='button secondary'>View</button>
+            <button onClick={handleEdit} className='button secondary'>Edit</button>
             <button onClick={handleDelete} className='button secondary'>Delete</button>
         </div>
     )

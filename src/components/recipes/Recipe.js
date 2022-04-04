@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import axiosWithAuth from "../utils/axiosWithAuth";
-//import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from "../Header";
 import { makeIngredientsArray } from "../utils/helpers";
 
 const Recipe = (props) => {
-    //const user_id = localStorage.getItem("user_id");
     const {recipe_id} = useParams();
     const navigate = useNavigate();
 
@@ -15,7 +12,6 @@ const Recipe = (props) => {
         axiosWithAuth()
             .get(`/${recipe_id}`,)
             .then(res=>{
-                console.log('==================useEffect GET on View Page =======================',res);
                 setRecipe({
                     ...res.data[0],
                     ingredients: makeIngredientsArray(res.data[0].ingredients)
@@ -82,11 +78,5 @@ const Recipe = (props) => {
         </div>
     )
 }
-
-// const mapStateToProps = (state) => {
-//     return ({
-//         recipes: state.recipes
-//     });
-// }
 
 export default Recipe;

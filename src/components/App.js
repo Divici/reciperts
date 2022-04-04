@@ -5,11 +5,10 @@ import PrivateRoute from './auth/PrivateRoute';
 import Home from './Home';
 import Login from './auth/Login';
 import Logout from './auth/Logout';
-import AddRecipeForm from './recipes/AddRecipeForm';
+import RecipeForm from './recipes/RecipeForm';
 import Signup from './auth/SignUp';
 import Dashboard from './user/Dashboard';
 import Recipe from './recipes/Recipe';
-import EditRecipe from './recipes/EditRecipe';
 import '../styles/Home.css';
 
 function App() {
@@ -20,8 +19,7 @@ function App() {
         <Routes>
 
           <Route element={<PrivateRoute />}>
-            <Route path={`/dashboard/edit/:recipe_id`} element={<AddRecipeForm/>} />
-            {/* <Route path={`/dashboard/edit/:recipe_id`} element={<EditRecipe/>} /> */}
+            <Route path={`/dashboard/edit/:recipe_id`} element={<RecipeForm/>} />
             <Route path={`/dashboard/view/:recipe_id`} element={<Recipe/>} />
             <Route path={`/dashboard`} element={<Dashboard/>} />   
             <Route path='/logout' element={<Logout/>} />
