@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosWithAuth from "../utils/axiosWithAuth";
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from "../Header";
-import { makeIngredientsArray } from "../utils/helpers";
+import { makeIngredientsArray, makeStepsArray } from "../utils/helpers";
 
 const Recipe = (props) => {
     const {recipe_id} = useParams();
@@ -14,7 +14,8 @@ const Recipe = (props) => {
             .then(res=>{
                 setRecipe({
                     ...res.data[0],
-                    ingredients: makeIngredientsArray(res.data[0].ingredients)
+                    ingredients: makeIngredientsArray(res.data[0].ingredients),
+                    steps: makeStepsArray(res.data[0].steps)
                 })
             }) 
             .catch(err=>{
@@ -31,7 +32,7 @@ const Recipe = (props) => {
         category: '',
         source: '',
         ingredients: [],
-        steps: ''
+        steps: []
     })
 
     const handleClick = () => {
@@ -65,7 +66,11 @@ const Recipe = (props) => {
                 </div>
                 <div className="right-content scroll">
                     <h2>Directions</h2>
-                    <p>{recipe.steps}</p>
+                    {
+                        recipe.steps && recipe.steps.map((step, i) =>(
+                            <p key={i}>{i+1}){step.step_name}</p>
+                        ))
+                    }
                 </div>
             </section>
 

@@ -35,3 +35,32 @@ export const makeIngredientsString = (array) => {
     }
     return ''
 }
+
+export const makeStepsArray = (string) => {
+    let stepArr = []
+    if(string && string.length > 0){
+        const outerArray = string.split(outJoiner)
+        outerArray.shift()
+        outerArray.forEach(stepStr => {
+            let stepObj = {
+                step_name: stepStr,
+                step_id : Math.floor(Date.now()/1000)
+            }
+            stepArr.push(stepObj)
+        })
+    }
+    
+    return stepArr
+}
+
+export const makeStepsString = (array) => {
+    if(array && array.length > 0){
+        let stepStr = ''
+        array.forEach(step=>{
+            stepStr += outJoiner + step.step_name 
+        })
+
+        return stepStr
+    }
+    return ''
+}

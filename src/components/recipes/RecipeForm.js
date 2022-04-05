@@ -3,9 +3,11 @@ import axiosWithAuth from '../utils/axiosWithAuth';
 import Header from '../Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIngredient from './EditIngredient';
-import { makeIngredientsArray, makeIngredientsString } from '../utils/helpers';
+import EditStep from './EditStep';
+import { makeIngredientsArray, makeIngredientsString, makeStepsArray, makeStepsString } from '../utils/helpers';
 
 const ingredientsList = []
+const stepsList = []
 
 const RecipeForm = (props) => {
     const navigate = useNavigate();
@@ -18,7 +20,8 @@ const RecipeForm = (props) => {
                     setRecipe({
                         ...recipe,
                         recipe_name: res.data[0].recipe_name,
-                        ingredients: makeIngredientsArray(res.data[0].ingredients)
+                        ingredients: makeIngredientsArray(res.data[0].ingredients),
+                        steps: makeStepsArray(res.data[0].steps)
                     })
                 }) 
                 .catch(err=>{
@@ -35,9 +38,10 @@ const RecipeForm = (props) => {
         category: '',
         source: '',
         ingredients: [],
-        steps: ''
+        steps: [],
     })
 
+    //==================Ingredients Array Helpers==================
     const addIng = (ingredient) => {
         ingredientsList.push({...ingredient, ing_id: Math.floor(Date.now()/1000)})
         
@@ -66,6 +70,36 @@ const RecipeForm = (props) => {
         })
     }
 
+    //==================Directions/Steps Array Helpers==================
+    const addStep = (step) => {
+        stepsList.push({...step, step_id: Math.floor(Date.now()/1000)})
+        
+        setRecipe({
+            ...recipe,
+            steps: stepsList
+        })
+    }
+
+    const editStep = (step, id) => {
+        stepsList.forEach((stp, i)=>{
+            if(stp.step_id === id){
+                stepsList[i] = step
+            }
+        })
+        setRecipe({
+            ...recipe,
+            steps: stepsList
+        })
+    }
+
+    const deleteStep = (step) => {
+        setRecipe({
+            ...recipe,
+            steps: recipe.steps.filter(stp=> stp.step_id !== step.step_id)
+        })
+    }
+    //===================================================================
+
     const handleChange = (e) => {
         setRecipe({
             ...recipe,
@@ -77,9 +111,12 @@ const RecipeForm = (props) => {
         e.preventDefault();
       
         axiosWithAuth()
-            .put(`/${recipe_id}`, {...recipe, ingredients: makeIngredientsString(recipe.ingredients)})
+            .put(`/${recipe_id}`, {
+                ...recipe, 
+                ingredients: makeIngredientsString(recipe.ingredients),
+                steps: makeStepsString(recipe.steps)
+            })
                 .then(res=>{
-                    console.log('==================Submit PUT on Edit Page =======================',res);
                     navigate(`/dashboard`);
                 }) 
                 .catch(err=>{
@@ -135,7 +172,16 @@ const RecipeForm = (props) => {
 
                         <div>
                             <label className="label">Steps</label>
-                            <textarea value={recipe.steps} onChange={handleChange} name="steps" />
+                            {
+                                recipe.steps.length > 0 && 
+                                    
+                                    recipe.steps.map((step_name, i)=>(
+                                        <EditStep step_name={step_name} edit={true} toggled={true} key={i} editStep={editStep} deleteIng={deleteStep} />
+                                    ))
+                                    
+                                   
+                            }
+                            <EditStep step_name={{}} edit={false} toggled={false} addStep={addStep} deleteStep={deleteStep} />
                         </div>
                         
                     </div>
