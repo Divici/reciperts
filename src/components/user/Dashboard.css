@@ -5,8 +5,20 @@
 }
 
 .card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     margin: 1rem;
     padding: 1rem;
-    width: 15rem;
     border: 1px solid black;
+}
+
+.card-content {
+    width: 10rem;
+    padding: 1rem;
+}
+
+.img-box img {
+    height: 10rem;
+    
 }

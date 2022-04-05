@@ -65,6 +65,9 @@ const Recipe = (props) => {
                     }
                 </div>
                 <div className="right-content scroll">
+                    <div className="img-box">
+                        <img src="https://images.pexels.com/photos/11566303/pexels-photo-11566303.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="meal" />
+                    </div>
                     <h2>Directions</h2>
                     {
                         recipe.steps && recipe.steps.map((step, i) =>(
