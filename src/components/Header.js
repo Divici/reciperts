@@ -7,10 +7,10 @@ const Header = () => {
 
     return(
         <header className='flex items-center justify-between px-2 py-5 mb-10'>
-                <Link to="/" className='py-1 px-2 ml-10 mr-auto'>
+                <Link to="/" className='py-1 px-2 sm:ml-10 lg:ml-24 mr-auto'>
                     <img className='w-24' src={logo} alt="logo"/>
                 </Link>
-                <nav className='flex mr-10'>
+                <nav className='flex sm:mr-10 lg:mr-24'>
                     {!token && <Link to="/login" className='text-main font-bold py-1 px-2 border-b-2 border-b-transparent transition hover:border-b-2 hover:border-b-main'>
                         Login</Link> }
                     {!token && <Link to="/signup" className='text-main font-bold py-1 px-2 border-b-2 border-b-transparent transition hover:border-b-2 hover:border-b-main'>

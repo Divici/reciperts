@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { connect } from 'react-redux';
 import axiosWithAuth from "../utils/axiosWithAuth";
 import { useNavigate } from 'react-router-dom';
 import { deleteRecipe } from "../../actions";
 
 const RecipeCard = (props) => {
-    const { recipe_name, prep_time, cook_time, category, recipe_id } = props.recipe;
+    const { recipe_name, prep_time, cook_time, category, recipe_id, source } = props.recipe;
     const navigate = useNavigate();
+
+    const [confirm, setConfirm] = useState(false);
 
     const handleClick = () => {
         navigate(`/dashboard/view/${recipe_id}`);
@@ -28,28 +30,37 @@ const RecipeCard = (props) => {
     }
 
     return (
-        <div className="card">
-            <div className="img-box">
-                <img src="https://images.pexels.com/photos/11566303/pexels-photo-11566303.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="meal" />
+       
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-2xl mb-8 mx-4">
+            <div className="md:flex">
+                <div className="md:shrink-0">
+                    <img src="https://images.pexels.com/photos/11566303/pexels-photo-11566303.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="meal" 
+                    className="h-48 w-full object-cover md:h-full md:w-48"/>
+                </div>
+                <div className="p-8">
+                    <div className="uppercase tracking-wide text-lg text-main font-bold border-b-2 mb-4">
+                        {recipe_name}
+                    </div>
+                    <div className="flex mb-2">
+                        <div className="mr-8">
+                            <p className="mt-1 text-lg leading-tight font-medium text-black">Prep Time: </p><p className="text-primary">{prep_time}</p>
+                        </div>
+                        <div className="mx-auto">
+                            <p className=" mt-1 text-lg leading-tight font-medium text-black">Cook Time: </p><p className="text-primary">{cook_time}</p>
+                        </div>
+                    </div>
+                        
+                    <p className="mt-2 mb-6 text-slate-500">Originally from {source}.</p>
+                    <div className="flex justify-around flex-row">
+                        <button onClick={handleClick} className='border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm mx-auto hover:bg-orange-500 transition'>View</button>
+                        <button onClick={handleEdit} className='border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm mx-auto hover:bg-orange-500 transition'>Edit</button>
+                        <button onClick={handleDelete} className='border-2 border-transparent text-white bg-red-600 w-14 py-1 rounded-sm mx-auto hover:bg-white hover:text-red-600 hover:border-red-600 transition-colors'>Delete</button>
+                    </div>
+
+                </div>
             </div>
-            <div className="card-content">
-                <div>
-                    <h2>{recipe_name}</h2>
-                    <h3>Category: {category}</h3>
-                </div>
-                <div>
-                    <p>Prep Time: {prep_time}</p>
-                    <p>Cook Time: {cook_time}</p>
-                </div>
-                <div>
-                    <button onClick={handleClick} className='secondary'>View</button>
-                    <button onClick={handleEdit} className='secondary'>Edit</button>
-                    <button onClick={handleDelete} className='secondary'>Delete</button>
-                </div>
-            </div>
-            
-            
         </div>
+
     )
 }
 

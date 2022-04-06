@@ -39,9 +39,9 @@ const Login = (props) => {
         <div className="min-h-screen">
             <Header/>
             <div className="flex items-center justify-center ">
-                <div className="px-32 py-20 mt-24 text-left bg-white shadow-2xl">
+                <div className="px-32 py-20 mt-24 text-center sm:text-left bg-white shadow-2xl">
 
-                    <h3 className="text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
+                    <h3 className="text-xl sm:text-4xl md:text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
                     
                     <form className="mt-8" onSubmit={handleLogin}>
                         <div className="">
