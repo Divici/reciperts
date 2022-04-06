@@ -36,37 +36,47 @@ const Login = (props) => {
     }
 
     return (
-        <div>
+        <div className="min-h-screen">
             <Header/>
-            <div className="title">
-                <h1>Log in</h1>
-            </div>
-            <div className="container">
-                
-                <form className="form" onSubmit={handleLogin}>
-                    <div>
-                        {error && <p id='error'>{error}</p>}
-                        <label className="label" htmlFor='username'>Username</label>
-                        <input
-                            className="input"
-                            type='text'
-                            id="username"
-                            value={credentials.username}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label className="label" htmlFor='password'>Password</label>
-                        <input
-                            className="input"
-                            type='password'
-                            id="password"
-                            value={credentials.password}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <button className="button center primary max" id='submit'>Login</button>
-                </form>
+            <div className="flex items-center justify-center ">
+                <div className="px-32 py-20 mt-24 text-left bg-white shadow-2xl">
+
+                    <h3 className="text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
+                    
+                    <form className="mt-8" onSubmit={handleLogin}>
+                        <div className="">
+                            <div>
+                                <label className="block mt-4" htmlFor='username'>Username</label>
+                                <input
+                                    className="w-full px-4 py-2 text-center mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main"
+                                    type='text'
+                                    placeholder="Username"
+                                    id="username"
+                                    value={credentials.username}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div>
+                                <label className="block mt-4" htmlFor='password'>Password</label>
+                                <input
+                                    className="w-full px-4 py-2 text-center mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main"
+                                    type='password'
+                                    placeholder="Password"
+                                    id="password"
+                                    value={credentials.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            
+                            {error && <p className="mt-4 text-sm text-center tracking-wide text-red-600">{error}</p>}
+
+                            <div className="text-center">
+                                <button className="px-6 py-2 mt-8 text-white font-semibold transition bg-primary rounded-lg hover:bg-orange-400">Login</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
     )
