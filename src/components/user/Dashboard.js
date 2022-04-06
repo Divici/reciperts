@@ -57,32 +57,36 @@ const Dashboard = (props) => {
     }
 
     return(
-        <div>
-            <Header/>
-            <h1>Recipe Book</h1>
-            {/* search and sort by go here*/}
+        <div id="top" >
+            <div className="mb-4 bg-white shadow-xl sticky top-0">
+                <Header/>
+                <h1 className="text-center">My Recipes</h1>
+                {/* search and sort by go here*/}
 
-            {!displayAdd && <button className='button primary' onClick={handleClick}>Add a Recipe</button>}
-            {displayAdd && <form className="form">
-                <div>
-                    <input
-                        className="input"
-                        type='text'
-                        id="recipe_name"
-                        value={recipe.recipe_name}
-                        placeholder='Name of Recipe'
-                        onChange={handleChange}
-                    />
-                </div>
-                <button className='button primary' onClick={handleClick}>Cancel</button>
-                <button className='button primary' onClick={handleSubmit}>Submit</button>
-            </form>}
-
-            <section className="cards container">
+                {!displayAdd && 
+                    <div className="flex justify-center"><button className='mb-10 mt-2 border-2 border-transparent text-white bg-primary py-1 px-2 rounded-md hover:bg-orange-500 transition' onClick={handleClick}>Add a Recipe</button></div>
+                }
+                {displayAdd && <form className="flex flex-col justify-center items-center">
+                    <div>
+                        <input
+                            className=" px-4 py-2 text-center mt-2 mx-auto border-2 border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-main"
+                            type='text'
+                            id="recipe_name"
+                            value={recipe.recipe_name}
+                            placeholder='Name of Recipe'
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button className='my-4 border-2 border-transparent text-white bg-slate-600 w-24 py-1 rounded-md mx-auto hover:bg-slate-500 transition' onClick={handleClick}>Cancel</button>
+                    <button className='mb-4 border-2 border-transparent text-white bg-primary w-24 py-1 rounded-md mx-auto hover:bg-orange-500 transition' onClick={handleSubmit}>Submit</button>
+                </form>}
+            </div>
+            <section className="flex flex-wrap mx-auto">
                 {
                     recipes.map(recipe=><RecipeCard key={recipe.recipe_id} recipe={recipe}/>)
                 }
             </section>
+            <a href='#top' className='text-white sticky left-full bottom-8 p-3 bg-primary rounded-full mr-2'>Top</a>
         </div>
     )
 }

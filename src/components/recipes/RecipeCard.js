@@ -58,13 +58,13 @@ const RecipeCard = (props) => {
                     <div className="flex justify-around flex-row">
                         <button onClick={handleClick} className='border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm mx-auto hover:bg-orange-500 transition'>View</button>
                         <button onClick={handleEdit} className='border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm mx-auto hover:bg-orange-500 transition'>Edit</button>
-                        <button onClick={handleConfirm} className='border-2 border-transparent text-white bg-red-600 w-14 py-1 rounded-sm mx-auto hover:bg-white hover:text-red-600 hover:border-red-600 transition-colors'>Delete</button>
+                        <button onClick={handleConfirm} className='border-2 border-transparent text-white bg-red-800 w-14 py-1 rounded-sm mx-auto hover:bg-red-600  hover:border-red-700 transition-colors'>Delete</button>
                     </div>
                     {confirm && (
                         <div className="text-center">
                             <p className="mt-2 text-red-600">...delete {recipe_name}?</p>
-                            <button onClick={handleDelete} className="text-white bg-red-600 w-8 rounded-sm mx-2">yes</button> 
-                            <button onClick={handleConfirm} className="text-white bg-slate-500 w-8 rounded-sm mx-2">no</button>
+                            <button onClick={handleDelete} className="text-white bg-red-600 hover:bg-red-800  hover:border-red-700 w-8 rounded-sm mx-2">yes</button> 
+                            <button onClick={handleConfirm} className="text-white bg-slate-500 hover:bg-slate-600 w-8 rounded-sm mx-2">no</button>
                         </div>
                     )}
 

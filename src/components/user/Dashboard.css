@@ -1,24 +1,8 @@
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 2rem;
-}
-
-.card {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid black;
-}
-
-.card-content {
-    width: 10rem;
-    padding: 1rem;
-}
-
-.img-box img {
-    height: 10rem;
-    
+.scroll__up {
+    position: absolute;
+    right: -2.3rem;
+    bottom: 5rem;
+    transform: rotate(90deg);
+    font-weight: 300;
+    font-size: 0.9rem;
 }
