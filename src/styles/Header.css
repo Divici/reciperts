@@ -3,7 +3,6 @@
     display:flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #202631;
     margin: 0 0 50px;
 }
 
@@ -19,6 +18,5 @@
 
 .nav li a {
     text-decoration: none;
-    color: white;
     font-size: 1em;
 }

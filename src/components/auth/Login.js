@@ -71,7 +71,7 @@ const Login = (props) => {
                             {error && <p className="mt-4 text-sm text-center tracking-wide text-red-600">{error}</p>}
 
                             <div className="text-center">
-                                <button className="px-6 py-2 mt-8 text-white font-semibold transition bg-primary rounded-lg hover:bg-orange-400">Login</button>
+                                <button className="px-6 py-2 mt-8 text-white font-medium transition bg-primary rounded-lg hover:bg-orange-400">Login</button>
                             </div>
                         </div>
                     </form>

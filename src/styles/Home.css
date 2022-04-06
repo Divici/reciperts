@@ -20,18 +20,20 @@ box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.7);
 
 .intro header {
 margin-right: 10rem;
+margin-left: 1rem;
 text-align: right;
 width: 30rem;
 }
 
 .content header {
 margin-left: 10rem;
+margin-right: 3rem;
 text-align: left;
 width: 70rem;
 }
 
 h1 {
-font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-family: 'Playfair Display', serif;
 font-size: 5rem;
 font-weight: 700;
 letter-spacing: -0.05em;
@@ -41,17 +43,12 @@ text-transform: none;
 }
 
 header  p {
-font-family: "Raleway", Helvetica, sans-serif;
+font-family: 'Playfair Display', serif;
 font-size: 0.8rem;
 letter-spacing: 0.175em;
 line-height: 2.5;
 text-transform: uppercase;
 margin: 0 0 2rem 0;
-}
-
-.content header p {
-    font-size: 1rem;
-    letter-spacing: 0.175em;
 }
 
 .primary {
@@ -64,11 +61,6 @@ background-color: #C15E0B;
 color: #ffffff;
 }
 
-/* .warning {
-background-color: #0e2923;
-color: #ffffff;
-} */
-
 .button {
 border: none;
 box-shadow: none;
@@ -76,7 +68,7 @@ transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out, co
 border-radius: 0.325rem;
 cursor: pointer;
 display: inline-block;
-font-family: "Raleway", Helvetica, sans-serif;
+font-family: 'Playfair Display', serif;
 font-size: 0.6rem;
 font-weight: 600;
 height: 3rem;
