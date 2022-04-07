@@ -20,6 +20,10 @@ const RecipeForm = (props) => {
                     setRecipe({
                         ...recipe,
                         recipe_name: res.data[0].recipe_name,
+                        prep_time: res.data[0].prep_time,
+                        cook_time: res.data[0].cook_time,
+                        category: res.data[0].category,
+                        source: res.data[0].source,
                         ingredients: makeIngredientsArray(res.data[0].ingredients),
                         steps: makeStepsArray(res.data[0].steps)
                     })

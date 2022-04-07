@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         main: '#202631',
         primary: '#C15E0B',
+      }, 
+      height: {
+        'paralax': '300vh',
       }
     },
   },

@@ -6,7 +6,7 @@ import axiosWithAuth from "../utils/axiosWithAuth";
 import RecipeCard from "../recipes/RecipeCard";
 import Header from "../Header";
 import { fetchSuccess } from "../../actions";
-import './Dashboard.css'
+import {BsFillArrowUpSquareFill} from 'react-icons/bs'
 
 const Dashboard = (props) => {
     const recipes = props.recipes;
@@ -60,7 +60,7 @@ const Dashboard = (props) => {
         <div id="top" >
             <div className="mb-4 bg-white shadow-xl sticky top-0">
                 <Header/>
-                <h1 className="text-center">My Recipes</h1>
+                <h1 className="text-center font-normal font-serif">My Recipes</h1>
                 {/* search and sort by go here*/}
 
                 {!displayAdd && 
@@ -86,7 +86,7 @@ const Dashboard = (props) => {
                     recipes.map(recipe=><RecipeCard key={recipe.recipe_id} recipe={recipe}/>)
                 }
             </section>
-            <a href='#top' className='text-white sticky left-full bottom-8 p-3 bg-primary rounded-full mr-2'>Top</a>
+            <a href='#top'><BsFillArrowUpSquareFill className='text-primary bg-white text-4xl sticky left-full bottom-8 mr-2'/></a>
         </div>
     )
 }
