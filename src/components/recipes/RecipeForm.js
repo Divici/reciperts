@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
+import { v4 as uuid } from 'uuid';
 import Header from '../Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIngredient from './EditIngredient';
 import EditStep from './EditStep';
 import { makeIngredientsArray, makeIngredientsString, makeStepsArray, makeStepsString } from '../utils/helpers';
 
-const ingredientsList = []
-const stepsList = []
+let ingredientsList = []
+let stepsList = []
 
 const RecipeForm = (props) => {
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ const RecipeForm = (props) => {
                         ingredients: makeIngredientsArray(res.data[0].ingredients),
                         steps: makeStepsArray(res.data[0].steps)
                     })
+                    ingredientsList= makeIngredientsArray(res.data[0].ingredients).map(item=> item)
+                    stepsList= makeStepsArray(res.data[0].steps).map(item=>item)
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
@@ -47,11 +50,11 @@ const RecipeForm = (props) => {
 
     //==================Ingredients Array Helpers==================
     const addIng = (ingredient) => {
-        ingredientsList.push({...ingredient, ing_id: Math.floor(Date.now()/1000)})
+        ingredientsList.push({...ingredient, ing_id: uuid().slice(0,8)})
         
         setRecipe({
             ...recipe,
-            ingredients: ingredientsList
+            ingredients: [...recipe.ingredients, ingredientsList]
         })
     }
 
@@ -76,7 +79,7 @@ const RecipeForm = (props) => {
 
     //==================Directions/Steps Array Helpers==================
     const addStep = (step) => {
-        stepsList.push({...step, step_id: Math.floor(Date.now()/1000)})
+        stepsList.push({...step, step_id: uuid().slice(0,8)})
         
         setRecipe({
             ...recipe,
@@ -188,8 +191,8 @@ const RecipeForm = (props) => {
                             </div>
                         </div>
 
-                        <div>
-                            <label className="label">Ingredients</label>
+                        <div className=''>
+                            <label className="w-full font-semibold text-base text-center">Ingredients</label>
                             {
                                 recipe.ingredients.length > 0 && 
                                     
@@ -199,7 +202,14 @@ const RecipeForm = (props) => {
                                     
                                    
                             }
-                            <EditIngredient ingredient={{}} edit={false} toggled={false} addIng={addIng} deleteIng={deleteIng} />
+                            <div className='mt-8 pt-1 pb-4 bg-slate-300'>
+                                <EditIngredient ingredient={{
+                                    quantity: 0,
+                                    ingredient_unit : '',
+                                    ingredient_name : '',
+                                    ing_id: uuid().slice(0,8)
+                                }} edit={false} toggled={false} addIng={addIng} deleteIng={deleteIng} />
+                            </div>
                         </div>
 
                         <div>
@@ -213,7 +223,10 @@ const RecipeForm = (props) => {
                                     
                                    
                             }
-                            <EditStep step_name={{}} edit={false} toggled={false} addStep={addStep} deleteStep={deleteStep} />
+                            <EditStep step_name={{
+                                step_name: '',
+                                step_id: uuid().slice(0,8)
+                            }} edit={false} toggled={false} addStep={addStep} deleteStep={deleteStep} />
                         </div>
                         
                     </div>

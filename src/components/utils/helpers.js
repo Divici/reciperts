@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 const outJoiner = '*0uT7o1n3r*'
 const inJoiner = '-1n8J0i2e4-'
 
@@ -12,7 +14,7 @@ export const makeIngredientsArray = (string) => {
                 quantity: Number(inner[0]),
                 ingredient_unit : inner[1],
                 ingredient_name: inner[2],
-                ing_id : Math.floor(Date.now()/1000)
+                ing_id : uuid().slice(0,8)
             }
             ingArr.push(ingObj)
         })
@@ -44,7 +46,7 @@ export const makeStepsArray = (string) => {
         outerArray.forEach(stepStr => {
             let stepObj = {
                 step_name: stepStr,
-                step_id : Math.floor(Date.now()/1000)
+                step_id : uuid().slice(0,8)
             }
             stepArr.push(stepObj)
         })

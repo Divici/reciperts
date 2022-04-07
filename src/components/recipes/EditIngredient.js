@@ -5,10 +5,10 @@ const EditIngredient = (props) => {
     const {toggled, edit} = props
 
     const [ingredient, setIngredient] = useState({
-        quantity: quantity || 0,
-        ingredient_unit : ingredient_unit || '',
-        ingredient_name : ingredient_name || '',
-        ing_id: ing_id || Math.floor(Date.now()/1000)
+        quantity: quantity,
+        ingredient_unit : ingredient_unit ,
+        ingredient_name : ingredient_name ,
+        ing_id: ing_id
     })
 
     const [toggle, setToggle] = useState(toggled)
@@ -47,22 +47,33 @@ const EditIngredient = (props) => {
     }
 
     return (
-        <div>
-                <div>
-                    <input disabled={toggle} value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' className="input" />
-                    <input disabled={toggle} value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Unit of Measurement' className="input"/>
-                    <label>Amount</label><input disabled={toggle} value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' className="input"/>
+        <div className="flex justify-around items-center">
+                <div className="mx-auto py-2">
+                    <input disabled={toggle} value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' 
+                        className="md:px-4 w-42 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300" />
+                    
+                    <div className="flex">
+                        <label></label><input disabled={toggle} value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' 
+                            className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300"/>
+                        
+                        <input disabled={toggle} value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Units' 
+                            className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300"/>    
+                    </div>
                 </div>
-                <div>
+
+                <div className="mx-auto pl-2">
                     {edit && 
-                        <div>
-                            { toggle ? <button onClick={handleToggle}>Edit</button> : <button onClick={handleEdit}>Done</button>}
-                            <button onClick={handleDelete}>Delete</button>
+                        <div className="mx-auto">
+                            { toggle ? 
+                                <button onClick={handleToggle} className="mr-2 mt-1 border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm hover:bg-orange-500 transition">Edit</button> 
+                            : 
+                                <button onClick={handleEdit} className="mr-2 mt-1 border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm hover:bg-orange-500 transition">Done</button>}
+                                <button onClick={handleDelete} className="mt-1 border-2 border-transparent text-white bg-red-600 w-14 py-1 rounded-sm hover:bg-red-700 transition">Delete</button>
                         </div>
                     }
                     {!edit && 
                         <div>
-                            <button onClick={handleAdd}>Add</button>
+                            <button onClick={handleAdd} className="border-2 border-transparent text-white bg-primary w-16 py-1 rounded-sm mx-auto hover:bg-orange-500 transition">Add</button>
                         </div>
                     }
                 </div>

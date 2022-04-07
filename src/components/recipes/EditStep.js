@@ -5,8 +5,8 @@ const EditStep = (props) => {
     const {toggled, edit} = props
 
     const [step, setStep] = useState({
-        step_name: step_name || '',
-        step_id: step_id || Math.floor(Date.now()/1000)
+        step_name: step_name,
+        step_id: step_id
     })
 
     const [toggle, setToggle] = useState(toggled)
