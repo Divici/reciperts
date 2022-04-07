@@ -131,33 +131,61 @@ const RecipeForm = (props) => {
     return(
         <div>
             <Header/>
-            <div className="container">
-                <form className="form" onSubmit={handleSubmit}>
+            <div className="">
+                <div className='shadow-xl pb-4 mb-8 bg-white'>
+                    <h1 className='text-4xl md:text-6xl text-center font-normal font-serif tracking-normal'>{recipe.recipe_name}</h1>
+                </div>
+                <form className="w-10/12 mx-auto" onSubmit={handleSubmit}>
+                    
                     <div>
-                        <h1 className='title'>{recipe.recipe_name}</h1>
-                    </div>
-                    <div>
-                        <div>
-                            <label className="label">Recipe Name</label>
-                            <input value={recipe.recipe_name} onChange={handleChange} name="recipe_name" type="text" className="input"/>
+                        <div className='flex items-center mb-4'>
+                            <label className="w-32 font-semibold text-base">Recipe Name:</label>
+                            <input 
+                                value={recipe.recipe_name} 
+                                onChange={handleChange} 
+                                name="recipe_name" type="text" 
+                                className="w-full px-4 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100"
+                            />
                         </div>
 
-                        <div>
-                            <label className="label">Category</label>
-                            <input value={recipe.category} onChange={handleChange} name="category" type="text" className="input"/>
-                        </div>
-
-                        <div>
-                            <label className="label">Source</label>
-                            <input value={recipe.source} onChange={handleChange} name="source" type="text" className="input"/>
-                        </div>
-
-                        <div>
-                            <div>Prep Time</div>
-                            <input value={recipe.prep_time} onChange={handleChange} name="prep_time" type="text" placeholder='How long' />
+                        <div className='flex items-center mb-4'>
+                            <label className="w-32 font-semibold text-base">Category:</label>
                             
-                            <div>Cook Time</div>
-                            <input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="text" placeholder='How long' />
+                            <select value={recipe.category} 
+                                onChange={handleChange} 
+                                name="category"
+                                className="w-full px-4 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100">
+                                <option value='All'>All</option>
+                                <option value='Breakfast'>Breakfast</option>
+                                <option value='Lunch'>Lunch</option>
+                                <option value='Dinner'>Dinner</option>
+                                <option value='Snack'>Snack</option>
+                                <option value='Dessert'>Dessert</option>
+                                <option value='Appetizer'>Appetizer</option>
+                                <option value='Vegetarian'>Vegetarian</option>
+                                <option value='Vegan'>Vegan</option>
+                                <option value='Soup'>Soup</option>
+                                <option value='Salad'>Salad</option>
+                            </select>
+                        </div>
+
+                        <div className='flex items-center mb-4'>
+                            <label className="w-32 font-semibold text-base">Source:</label>
+                            <input value={recipe.source} 
+                            onChange={handleChange} 
+                            name="source" type="text" 
+                            className="w-full px-4 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100"/>
+                        </div>
+
+                        <div className='flex justify-around items-center text-center mb-8'>
+                            <div className='mx-auto w-52 md:w-1/3 font-semibold text-base'>Prep Time: 
+                                <input value={recipe.prep_time} onChange={handleChange} name="prep_time" type="text" placeholder='How long' 
+                                className='w-full px-4 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100'/>
+                            </div>
+                            <div className='mx-auto w-52 md:w-1/3 font-semibold text-base'>Cook Time: 
+                                <input value={recipe.cook_time} onChange={handleChange} name="cook_time" type="text" placeholder='How long' 
+                                className='w-full px-4 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100'/>
+                            </div>
                         </div>
 
                         <div>
