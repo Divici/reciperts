@@ -86,15 +86,15 @@ const EditIngredient = (props) => {
                     {edit && 
                         <div className="mx-auto">
                             { toggle ? 
-                                <button onClick={handleToggle} className="mr-2 mt-1 border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm hover:bg-orange-500 transition">Edit</button> 
+                                <button onClick={handleToggle} className="mr-2 mt-1 border-2 border-transparent text-white bg-main w-14 py-1 rounded-sm hover:bg-slate-500 transition">Edit</button> 
                             : 
-                                <button onClick={handleEdit} className="mr-2 mt-1 border-2 border-transparent text-white bg-primary w-14 py-1 rounded-sm hover:bg-orange-500 transition">Done</button>}
-                                <button onClick={handleDelete} className="mt-1 border-2 border-transparent text-white bg-red-600 w-14 py-1 rounded-sm hover:bg-red-700 transition">Delete</button>
+                                <button onClick={handleEdit} className="mr-2 mt-1 border-2 border-transparent text-white bg-main w-14 py-1 rounded-sm hover:bg-slate-500 transition">Done</button>}
+                                <button onClick={handleDelete} className="mt-1 border-2 border-transparent text-white bg-red-600 w-14 py-1 rounded-sm hover:text-red-500 hover:bg-white hover:border-red-400 transition">Delete</button>
                         </div>
                     }
                     {!edit && 
                         <div>
-                            <button onClick={handleAdd} className="border-2 border-transparent text-white bg-primary w-16 py-1 rounded-sm mx-auto hover:bg-orange-500 transition">Add</button>
+                            <button onClick={handleAdd} className="border-2 border-transparent text-white bg-main w-16 py-1 rounded-sm mx-auto hover:bg-slate-500 transition">Add</button>
                         </div>
                     }
                 </div>

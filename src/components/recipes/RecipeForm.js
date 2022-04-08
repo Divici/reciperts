@@ -51,7 +51,6 @@ const RecipeForm = (props) => {
     
     //==================Ingredients Array Helpers==================
     const addIng = (ingredient) => {
-        //ingredientsList.push({...ingredient, ing_id: uuid().slice(0,8)})
         
         setRecipe({
             ...recipe,
@@ -61,14 +60,6 @@ const RecipeForm = (props) => {
 
     const editIng = (ingredient) => {
         const newIng = recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
-        // for(let i=0; i<recipe.ingredients.length; i++){
-        //     if(recipe.ingredients[i].ing_id === ingredient.ing_id){
-        //         setRecipe({
-        //             ...recipe,
-        //             ingredients: [...recipe.ingredients, recipe.ingredients[i] = ingredient]
-        //         })
-        //     }
-        // }
 
         newIng.push(ingredient)
         setRecipe({
@@ -80,39 +71,44 @@ const RecipeForm = (props) => {
 
     const deleteIng = (ingredient) => {
         const newIng = recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
+
         setRecipe({
             ...recipe,
             ingredients: newIng
         })
     }
-    console.log('recipe',recipe.ingredients);
-    //console.log('list',ingredientsList);
+    
     //==================Directions/Steps Array Helpers==================
     const addStep = (step) => {
-        stepsList.push({...step, step_id: uuid().slice(0,8)})
         
         setRecipe({
             ...recipe,
-            steps: stepsList
+            steps: [...recipe.steps, {...step, step_id: uuid().slice(0,8)}]
         })
     }
 
-    const editStep = (step, id) => {
-        stepsList.forEach((stp, i)=>{
-            if(stp.step_id === id){
-                stepsList[i] = step
+    const editStep = (step) => {
+        let index = 0
+
+        const copyStepArr = recipe.steps.map((stp, i)=>{
+            if(stp.step_id === step.step_id){
+                index = i
             }
+            return stp
         })
+        copyStepArr[index] = step
         setRecipe({
             ...recipe,
-            steps: stepsList
+            steps: copyStepArr
         })
     }
 
     const deleteStep = (step) => {
+        const newStep = recipe.steps.filter(stp=> stp.step_id !== step.step_id)
+
         setRecipe({
             ...recipe,
-            steps: recipe.steps.filter(stp=> stp.step_id !== step.step_id)
+            steps: newStep
         })
     }
     //===================================================================
@@ -140,7 +136,7 @@ const RecipeForm = (props) => {
                     console.log(err.response.data);
                 })   
     }
-
+console.log('steps: ',recipe.steps);
     return(
         <div>
             <Header/>
@@ -225,25 +221,29 @@ const RecipeForm = (props) => {
                         </div>
 
                         <div>
-                            <label className="label">Steps</label>
-                            {
-                                recipe.steps.length > 0 && 
+                            <p className="mb-2 font-semibold text-base text-center">Directions</p>
+                            <div className='px-1 py-2 bg-slate-200'>
+                                {
+                                    recipe.steps.length > 0 && 
+                                        
+                                        recipe.steps.map((step_name, i)=>(
+                                            <EditStep step_name={step_name} edit={true} toggled={true} key={i} editStep={editStep} deleteStep={deleteStep} />
+                                        ))
+                                        
                                     
-                                    recipe.steps.map((step_name, i)=>(
-                                        <EditStep step_name={step_name} edit={true} toggled={true} key={i} editStep={editStep} deleteIng={deleteStep} />
-                                    ))
-                                    
-                                   
-                            }
-                            <EditStep step_name={{
-                                step_name: '',
-                                step_id: uuid().slice(0,8)
-                            }} edit={false} toggled={false} addStep={addStep} deleteStep={deleteStep} />
+                                }
+                            </div>
+                            <div className='mt-8 pt-1 pb-4'>
+                                <EditStep step_name={{
+                                    step_name: '',
+                                    step_id: uuid().slice(0,8)
+                                }} edit={false} toggled={false} addStep={addStep} deleteStep={deleteStep} />
+                            </div>
                         </div>
                         
                     </div>
-                    <div>
-                        <button className='button center primary max'>Submit</button>
+                    <div className='flex'>
+                        <button className='my-8 mx-auto border-2 border-transparent text-white bg-primary w-3/4 py-1 rounded-sm mx-auto hover:bg-orange-500 transition'>Submit</button>
                     </div>
                 </form>
             </div>
