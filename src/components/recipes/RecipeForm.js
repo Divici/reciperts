@@ -28,7 +28,7 @@ const RecipeForm = (props) => {
                         ingredients: makeIngredientsArray(res.data[0].ingredients),
                         steps: makeStepsArray(res.data[0].steps)
                     })
-                    ingredientsList= makeIngredientsArray(res.data[0].ingredients).map(item=> item)
+                    ingredientsList= makeIngredientsArray(res.data[0].ingredients).map(item=>item)
                     stepsList= makeStepsArray(res.data[0].steps).map(item=>item)
                 }) 
                 .catch(err=>{
@@ -48,35 +48,45 @@ const RecipeForm = (props) => {
         steps: [],
     })
 
+    
     //==================Ingredients Array Helpers==================
     const addIng = (ingredient) => {
-        ingredientsList.push({...ingredient, ing_id: uuid().slice(0,8)})
+        //ingredientsList.push({...ingredient, ing_id: uuid().slice(0,8)})
         
         setRecipe({
             ...recipe,
-            ingredients: [...recipe.ingredients, ingredientsList]
+            ingredients: [...recipe.ingredients, {...ingredient, ing_id: uuid().slice(0,8)}]
         })
     }
 
-    const editIng = (ingredient, id) => {
-        ingredientsList.forEach((ing, i)=>{
-            if(ing.ing_id === id){
-                ingredientsList[i] = ingredient
-            }
-        })
+    const editIng = (ingredient) => {
+        const newIng = recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
+        // for(let i=0; i<recipe.ingredients.length; i++){
+        //     if(recipe.ingredients[i].ing_id === ingredient.ing_id){
+        //         setRecipe({
+        //             ...recipe,
+        //             ingredients: [...recipe.ingredients, recipe.ingredients[i] = ingredient]
+        //         })
+        //     }
+        // }
+
+        newIng.push(ingredient)
         setRecipe({
             ...recipe,
-            ingredients: ingredientsList
+            ingredients: newIng
         })
+        
     }
 
     const deleteIng = (ingredient) => {
+        const newIng = recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
         setRecipe({
             ...recipe,
-            ingredients: recipe.ingredients.filter(ing=> ing.ing_id !== ingredient.ing_id)
+            ingredients: newIng
         })
     }
-
+    console.log('recipe',recipe.ingredients);
+    //console.log('list',ingredientsList);
     //==================Directions/Steps Array Helpers==================
     const addStep = (step) => {
         stepsList.push({...step, step_id: uuid().slice(0,8)})
@@ -192,17 +202,19 @@ const RecipeForm = (props) => {
                         </div>
 
                         <div className=''>
-                            <label className="w-full font-semibold text-base text-center">Ingredients</label>
-                            {
-                                recipe.ingredients.length > 0 && 
+                            <p className="mb-2 font-semibold text-base text-center">Ingredients</p>
+                            <div className='px-1 pb-2 bg-slate-200'>
+                                {
+                                    recipe.ingredients.length > 0 && 
+                                        
+                                        recipe.ingredients.map((ingredient, i)=>(
+                                            <EditIngredient ingredient={ingredient} edit={true} toggled={true} key={i} editIng={editIng} deleteIng={deleteIng} />
+                                        ))
+                                        
                                     
-                                    recipe.ingredients.map((ingredient, i)=>(
-                                        <EditIngredient ingredient={ingredient} edit={true} toggled={true} key={i} editIng={editIng} deleteIng={deleteIng} />
-                                    ))
-                                    
-                                   
-                            }
-                            <div className='mt-8 pt-1 pb-4 bg-slate-300'>
+                                }
+                            </div>
+                            <div className='mt-8 pt-1 pb-4'>
                                 <EditIngredient ingredient={{
                                     quantity: 0,
                                     ingredient_unit : '',

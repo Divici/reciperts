@@ -38,7 +38,7 @@ const EditIngredient = (props) => {
     const handleEdit = (e) => {
         e.preventDefault();
         setToggle(true)
-        props.editIng(ingredient, ingredient.ing_id)
+        props.editIng(ingredient)
     }
 
     const handleDelete = (e) => {
@@ -47,7 +47,7 @@ const EditIngredient = (props) => {
     }
 
     return (
-        <div className="flex justify-around items-center">
+        <div className="flex justify-around items-center mx-auto w-min sm:w-full">
                 <div className="mx-auto py-2">
                     <input disabled={toggle} value={ingredient.ingredient_name} onChange={handleChangeIngredient} name="ingredient_name" type="text" placeholder='Ingredient Name' 
                         className="md:px-4 w-42 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300" />
@@ -56,8 +56,29 @@ const EditIngredient = (props) => {
                         <label></label><input disabled={toggle} value={ingredient.quantity} onChange={handleChangeIngredient} name="quantity" type="number" placeholder='Amount' 
                             className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300"/>
                         
-                        <input disabled={toggle} value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Units' 
-                            className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300"/>    
+                        {/* <input disabled={toggle} value={ingredient.ingredient_unit} onChange={handleChangeIngredient} name="ingredient_unit" type="text" placeholder='Units' 
+                            className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300"/>  */}
+
+                        <select value={ingredient.ingredient_unit} 
+                            disabled={toggle}
+                            onChange={handleChangeIngredient} 
+                            name="ingredient_unit"
+                            className="w-24 py-2 text-center text-slate-500 focus:text-main mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-main bg-slate-100 disabled:bg-slate-300">
+                            
+                                <option value='Tbsp'>Tbsp</option>
+                                <option value='tsp'>tsp</option>
+                                <option value='Oz'>Oz</option>
+                                <option value='fl. Oz'>fl. Oz</option>
+                                <option value='Cups'>Cups</option>
+                                <option value='quarts'>Quarts</option>
+                                <option value='pints'>Pint</option>
+                                <option value='Gallons'>Gallons</option>
+                                <option value='lbs'>lbs</option>
+                                <option value='mL'>ml</option>
+                                <option value='g'>g</option>
+                                <option value='kg'>kg</option>
+                                <option value='Liters'>Liters</option>
+                        </select>       
                     </div>
                 </div>
 
