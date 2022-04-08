@@ -38,12 +38,12 @@ const Login = (props) => {
     return (
         <div className="min-h-screen">
             <Header/>
-            <div className="flex items-center justify-center ">
-                <div className="px-32 py-20 mt-24 text-center sm:text-left bg-white shadow-2xl">
+            <div className="flex items-center justify-center mx-auto">
+                <div className="w-4/5 md:w-1/2 py-20 mt-24 text-center md:text-left bg-white shadow-2xl">
 
-                    <h3 className="text-xl sm:text-4xl md:text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
+                    <h3 className="text-2xl w-full sm:text-3xl md:text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
                     
-                    <form className="mt-8" onSubmit={handleLogin}>
+                    <form className="mt-8 px-12 sm:px-32" onSubmit={handleLogin}>
                         <div className="">
                             <div>
                                 <label className="block mt-4" htmlFor='username'>Username</label>
