@@ -5,7 +5,7 @@ import axios from "axios";
 import axiosWithAuth from "../utils/axiosWithAuth";
 import RecipeCard from "../recipes/RecipeCard";
 import Header from "../Header";
-import { fetchSuccess } from "../../actions";
+import { fetchSuccess, fetchFail } from "../../actions";
 import {BsFillArrowUpSquareFill} from 'react-icons/bs'
 
 const Dashboard = (props) => {
@@ -19,7 +19,7 @@ const Dashboard = (props) => {
             props.fetchSuccess(resp.data.userRecipes);
         })
         .catch(err => {
-            console.log(err);
+            props.fetchFail(err.message);
         })
     }, []);
 
@@ -97,4 +97,4 @@ const mapStateToProps = (state) => {
     });
 }
 
-export default connect(mapStateToProps, {fetchSuccess})(Dashboard);
+export default connect(mapStateToProps, {fetchSuccess, fetchFail})(Dashboard);

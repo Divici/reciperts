@@ -7,9 +7,6 @@ import EditIngredient from './EditIngredient';
 import EditStep from './EditStep';
 import { makeIngredientsArray, makeIngredientsString, makeStepsArray, makeStepsString } from '../utils/helpers';
 
-let ingredientsList = []
-let stepsList = []
-
 const RecipeForm = (props) => {
     const navigate = useNavigate();
     const {recipe_id} = useParams();
@@ -28,8 +25,6 @@ const RecipeForm = (props) => {
                         ingredients: makeIngredientsArray(res.data[0].ingredients),
                         steps: makeStepsArray(res.data[0].steps)
                     })
-                    ingredientsList= makeIngredientsArray(res.data[0].ingredients).map(item=>item)
-                    stepsList= makeStepsArray(res.data[0].steps).map(item=>item)
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
@@ -130,13 +125,13 @@ const RecipeForm = (props) => {
                 steps: makeStepsString(recipe.steps)
             })
                 .then(res=>{
-                    navigate(`/dashboard`);
+                    navigate(`/dashboard/view/${recipe_id}`);
                 }) 
                 .catch(err=>{
                     console.log(err.response.data);
                 })   
     }
-console.log('steps: ',recipe.steps);
+
     return(
         <div>
             <Header/>

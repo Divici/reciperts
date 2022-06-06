@@ -14,6 +14,8 @@ const Login = (props) => {
 
     const [error, setError] = useState('');
 
+    const [success, setSuccess] = useState('');
+
     const handleChange = (e) => {
         setCredentials({
             ...credentials,
@@ -26,6 +28,7 @@ const Login = (props) => {
 
         axios.post('https://reciperts.herokuapp.com/api/auth/login', credentials)
             .then(resp=>{
+                setSuccess('Logging in. Please wait...')
                 localStorage.setItem('token', resp.data.token);
                 localStorage.setItem('user_id', resp.data.user_id)
                 navigate(`/dashboard`);
@@ -39,7 +42,7 @@ const Login = (props) => {
         <div className="min-h-screen">
             <Header/>
             <div className="flex items-center justify-center mx-auto">
-                <div className="w-4/5 md:w-1/2 py-20 mt-24 text-center md:text-left bg-white shadow-2xl">
+                <div className="w-4/5 md:w-[550px] py-20 mt-24 text-center md:text-left bg-white shadow-2xl">
 
                     <h3 className="text-2xl w-full sm:text-3xl md:text-4xl mb-12 font-bold text-center text-main">Login to your account</h3>
                     
@@ -73,6 +76,9 @@ const Login = (props) => {
                             <div className="text-center">
                                 <button className="px-6 py-2 mt-8 text-white font-medium transition bg-primary rounded-lg hover:bg-orange-400">Login</button>
                             </div>
+
+                            {success && <p className="mt-4 text-sm text-center tracking-wide text-primary">{success}</p>}
+
                         </div>
                     </form>
 
